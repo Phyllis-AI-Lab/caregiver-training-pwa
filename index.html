@@ -815,47 +815,28 @@
 
 
 <!-- ========== 用藥提醒面板 ========== -->
-<div id="med-reminder-section" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:white; z-index:300; overflow-y:auto; padding-bottom:4rem;">
-  <div style="max-width:1200px; margin:0 auto; padding:1.5rem;">
+<div id="med-reminder-section" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:white;z-index:300;overflow-y:auto;padding-bottom:4rem;">
+  <div style="max-width:1200px;margin:0 auto;padding:1.5rem;">
     <h2 style="margin-bottom:0.5rem">💊 用藥提醒 Pengingat Obat</h2>
-    <p style="color:#6b7280; font-size:0.9rem; margin-bottom:1.5rem">APP 開著時，時間到自動提醒 / Saat APP terbuka, pengingat otomatis</p>
-    <div style="background:linear-gradient(135deg,#2563eb,#7c3aed); border-radius:14px; padding:1.25rem; color:white; text-align:center; margin-bottom:1.5rem;">
-      <div style="font-size:0.875rem; opacity:0.85; margin-bottom:0.25rem">現在時間 Waktu Sekarang</div>
-      <div id="med-clock" style="font-size:2.5rem; font-weight:800; letter-spacing:2px">00:00</div>
-      <div id="med-next" style="font-size:0.85rem; opacity:0.9; margin-top:0.5rem">載入中...</div>
+    <p style="color:#6b7280;font-size:0.9rem;margin-bottom:1.5rem">APP 開著時，時間到自動提醒 / Saat APP terbuka, pengingat otomatis</p>
+    <div style="background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:14px;padding:1.25rem;color:white;text-align:center;margin-bottom:1.5rem;">
+      <div style="font-size:0.875rem;opacity:0.85;margin-bottom:0.25rem">現在時間 Waktu Sekarang</div>
+      <div id="med-clock" style="font-size:2.5rem;font-weight:800;letter-spacing:2px">00:00</div>
+      <div id="med-next" style="font-size:0.85rem;opacity:0.9;margin-top:0.5rem">載入中...</div>
     </div>
-    <div style="background:#f9fafb; border:2px solid #e5e7eb; border-radius:12px; padding:1.25rem; margin-bottom:1.5rem;">
-      <h3 style="font-size:1rem; font-weight:700; margin-bottom:1rem; color:#2563eb">➕ 新增用藥提醒</h3>
-      <div style="display:grid; gap:0.75rem;">
-        <div>
-          <label style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:0.3rem">藥名 Nama Obat</label>
-          <input id="med-name-zh" type="text" placeholder="例如：血壓藥" style="width:100%; padding:0.7rem; border:2px solid #e5e7eb; border-radius:8px; font-size:0.95rem;" oninput="autoTranslateMedName(this.value)">
-        </div>
-        <div>
-          <label style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:0.3rem">印尼文（自動翻譯）Nama B.Indonesia</label>
-          <input id="med-name-id" type="text" placeholder="⏳ 輸入中文後自動翻譯..." style="width:100%; padding:0.7rem; border:2px solid #e5e7eb; border-radius:8px; font-size:0.95rem; color:#2563eb; background:#f0f7ff;">
-        </div>
-        <div>
-          <label style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:0.3rem">劑量 Dosis</label>
-          <input id="med-dose" type="text" placeholder="例如：1 顆 / 1 butir" style="width:100%; padding:0.7rem; border:2px solid #e5e7eb; border-radius:8px; font-size:0.95rem;">
-        </div>
-        <div>
-          <label style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:0.3rem">提醒時間 Waktu</label>
-          <input id="med-time" type="time" style="width:100%; padding:0.7rem; border:2px solid #e5e7eb; border-radius:8px; font-size:0.95rem;">
-        </div>
-        <div>
-          <label style="font-size:0.85rem; font-weight:600; color:#374151; display:block; margin-bottom:0.3rem">備註 Catatan</label>
-          <input id="med-note" type="text" placeholder="例如：飯後服用 / Setelah makan" style="width:100%; padding:0.7rem; border:2px solid #e5e7eb; border-radius:8px; font-size:0.95rem;">
-        </div>
+    <div style="background:#f9fafb;border:2px solid #e5e7eb;border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;">
+      <h3 style="font-size:1rem;font-weight:700;margin-bottom:1rem;color:#2563eb">➕ 新增用藥提醒</h3>
+      <div style="display:grid;gap:0.75rem;">
+        <div><label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:0.3rem">藥名 Nama Obat</label><input id="med-name-zh" type="text" placeholder="例如：血壓藥" oninput="autoTranslateMedName(this.value)" style="width:100%;padding:0.7rem;border:2px solid #e5e7eb;border-radius:8px;font-size:0.95rem;"></div>
+        <div><label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:0.3rem">印尼文（自動翻譯）</label><input id="med-name-id" type="text" placeholder="⏳ 輸入中文後自動翻譯..." style="width:100%;padding:0.7rem;border:2px solid #e5e7eb;border-radius:8px;font-size:0.95rem;color:#2563eb;background:#f0f7ff;"></div>
+        <div><label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:0.3rem">劑量 Dosis</label><input id="med-dose" type="text" placeholder="例如：1 顆 / 1 butir" style="width:100%;padding:0.7rem;border:2px solid #e5e7eb;border-radius:8px;font-size:0.95rem;"></div>
+        <div><label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:0.3rem">提醒時間 Waktu</label><input id="med-time" type="time" style="width:100%;padding:0.7rem;border:2px solid #e5e7eb;border-radius:8px;font-size:0.95rem;"></div>
+        <div><label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:0.3rem">備註 Catatan</label><input id="med-note" type="text" placeholder="例如：飯後服用 / Setelah makan" style="width:100%;padding:0.7rem;border:2px solid #e5e7eb;border-radius:8px;font-size:0.95rem;"></div>
       </div>
-      <button onclick="addMedReminder()" style="width:100%; margin-top:1rem; padding:0.9rem; background:#10b981; color:white; border:none; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer;">
-        ➕ 新增提醒 Tambah Pengingat
-      </button>
+      <button onclick="addMedReminder()" style="width:100%;margin-top:1rem;padding:0.9rem;background:#10b981;color:white;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;">➕ 新增提醒 Tambah Pengingat</button>
     </div>
-    <h3 style="font-size:1rem; font-weight:700; margin-bottom:0.75rem; color:#1f2937">📋 用藥時刻表 Jadwal Obat</h3>
-    <div id="med-list">
-      <div style="text-align:center; padding:2rem; color:#9ca3af; font-size:0.9rem;">尚未設定任何用藥提醒<br>Belum ada pengingat obat</div>
-    </div>
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.75rem;color:#1f2937">📋 用藥時刻表 Jadwal Obat</h3>
+    <div id="med-list"><div style="text-align:center;padding:2rem;color:#9ca3af;font-size:0.9rem;">尚未設定任何用藥提醒<br>Belum ada pengingat obat</div></div>
   </div>
 </div>
 
@@ -1033,217 +1014,6 @@
     button.classList.add('active');
   }
 
-  // ===================== 用藥提醒 =====================
-  let medReminders = [];
-  let alertedToday = {};
-
-  // 時鐘更新
-  function updateMedClock() {
-    const now = new Date();
-    const hh = String(now.getHours()).padStart(2, '0');
-    const mm = String(now.getMinutes()).padStart(2, '0');
-    const timeStr = `${hh}:${mm}`;
-
-    const clockEl = document.getElementById('med-clock');
-    if (clockEl) clockEl.textContent = timeStr;
-
-    // 找下一個提醒
-    const upcoming = medReminders
-      .filter(m => m.time > timeStr)
-      .sort((a, b) => a.time.localeCompare(b.time));
-
-    const nextEl = document.getElementById('med-next');
-    if (nextEl) {
-      if (upcoming.length > 0) {
-        nextEl.textContent = `⏭ 下一次提醒：${upcoming[0].time} ${upcoming[0].nameZh}`;
-      } else if (medReminders.length > 0) {
-        nextEl.textContent = '✅ 今日所有提醒已完成 Semua pengingat hari ini selesai';
-      } else {
-        nextEl.textContent = '尚未設定提醒 / Belum ada pengingat';
-      }
-    }
-
-    // 檢查是否有到時間的提醒
-    const todayKey = now.toDateString();
-    medReminders.forEach(m => {
-      const alertKey = `${todayKey}-${m.id}`;
-      if (m.time === timeStr && !alertedToday[alertKey]) {
-        alertedToday[alertKey] = true;
-        showMedAlert(m);
-      }
-    });
-  }
-
-  // 顯示用藥提醒彈窗
-  function showMedAlert(med) {
-    // 震動（如果支援）
-    if (navigator.vibrate) navigator.vibrate([500, 200, 500, 200, 500]);
-
-    // 建立彈窗
-    const overlay = document.createElement('div');
-    overlay.style.cssText = `
-      position:fixed; top:0; left:0; right:0; bottom:0;
-      background:rgba(0,0,0,0.7); z-index:9999;
-      display:flex; align-items:center; justify-content:center;
-      padding:1.5rem; animation: fadeIn 0.3s;
-    `;
-
-    overlay.innerHTML = `
-      <div style="background:white; border-radius:20px; padding:2rem; max-width:380px; width:100%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-        <div style="font-size:4rem; margin-bottom:0.75rem">💊</div>
-        <div style="background:#fef3c7; color:#92400e; padding:0.4rem 1rem; border-radius:999px; font-size:0.8rem; font-weight:700; display:inline-block; margin-bottom:1rem">
-          ⏰ ${med.time} 用藥時間到！
-        </div>
-        <h2 style="font-size:1.5rem; font-weight:800; color:#1f2937; margin-bottom:0.25rem">${med.nameZh}</h2>
-        <p style="color:#2563eb; font-size:1rem; font-style:italic; margin-bottom:0.75rem">${med.nameId}</p>
-        ${med.dose ? `<p style="background:#eff6ff; padding:0.5rem 1rem; border-radius:8px; color:#1e3a8a; font-weight:600; margin-bottom:0.5rem">💊 劑量 Dosis: ${med.dose}</p>` : ''}
-        ${med.note ? `<p style="color:#6b7280; font-size:0.9rem; margin-bottom:1rem">📝 ${med.note}</p>` : ''}
-        <div style="display:flex; gap:0.75rem; margin-top:1.25rem;">
-          <button onclick="this.closest('div[style*=fixed]').remove()" style="flex:1; padding:0.9rem; background:#10b981; color:white; border:none; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer;">
-            ✅ 已服藥<br><span style="font-size:0.8rem; font-weight:400">Sudah minum</span>
-          </button>
-          <button onclick="snoozeAlert(this, '${med.id}')" style="flex:1; padding:0.9rem; background:#f59e0b; color:white; border:none; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer;">
-            ⏰ 稍後提醒<br><span style="font-size:0.8rem; font-weight:400">Ingatkan lagi</span>
-          </button>
-        </div>
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-  }
-
-  function snoozeAlert(btn, medId) {
-    const overlay = btn.closest('div[style*="fixed"]');
-    overlay.remove();
-    // 5 分鐘後再提醒
-    setTimeout(() => {
-      const med = medReminders.find(m => m.id === medId);
-      if (med) showMedAlert(med);
-    }, 5 * 60 * 1000);
-  }
-
-  // 新增用藥提醒
-  async function addMedReminder() {
-    const nameZh = document.getElementById('med-name-zh').value.trim();
-    const nameId = document.getElementById('med-name-id').value.trim();
-    const dose = document.getElementById('med-dose').value.trim();
-    const time = document.getElementById('med-time').value;
-    const note = document.getElementById('med-note').value.trim();
-
-    if (!nameZh) { alert('❌ 請輸入藥名 / Masukkan nama obat'); return; }
-    if (!time) { alert('❌ 請設定提醒時間 / Masukkan waktu'); return; }
-
-    const med = {
-      id: Date.now().toString(),
-      nameZh,
-      nameId: nameId || '（翻譯中...）',
-      dose,
-      time,
-      note
-    };
-
-    medReminders.push(med);
-    medReminders.sort((a, b) => a.time.localeCompare(b.time));
-    renderMedList();
-
-    // 清空表單
-    document.getElementById('med-name-zh').value = '';
-    document.getElementById('med-name-id').value = '';
-    document.getElementById('med-dose').value = '';
-    document.getElementById('med-time').value = '';
-    document.getElementById('med-note').value = '';
-
-    // 如果印尼文是自動翻譯的，更新它
-    if (!nameId && GOOGLE_TRANSLATE_API_KEY !== 'YOUR_API_KEY_HERE') {
-      try {
-        const res = await fetch(
-          `https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_TRANSLATE_API_KEY}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ q: nameZh, source: 'zh-TW', target: 'id', format: 'text' })
-          }
-        );
-        const data = await res.json();
-        med.nameId = data.data.translations[0].translatedText;
-        renderMedList();
-      } catch(e) {
-        med.nameId = nameZh;
-      }
-    }
-  }
-
-  // 自動翻譯藥名
-  document.addEventListener('DOMContentLoaded', () => {
-    const nameZhInput = document.getElementById('med-name-zh');
-    if (nameZhInput) {
-      let translateTimer = null;
-      nameZhInput.addEventListener('input', () => {
-        clearTimeout(translateTimer);
-        const val = nameZhInput.value.trim();
-        if (!val) { document.getElementById('med-name-id').value = ''; return; }
-        document.getElementById('med-name-id').value = '⏳ 翻譯中...';
-        translateTimer = setTimeout(async () => {
-          if (GOOGLE_TRANSLATE_API_KEY === 'YOUR_API_KEY_HERE') {
-            document.getElementById('med-name-id').value = '';
-            return;
-          }
-          try {
-            const res = await fetch(
-              `https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_TRANSLATE_API_KEY}`,
-              {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ q: val, source: 'zh-TW', target: 'id', format: 'text' })
-              }
-            );
-            const data = await res.json();
-            document.getElementById('med-name-id').value = data.data.translations[0].translatedText;
-          } catch(e) {
-            document.getElementById('med-name-id').value = '';
-          }
-        }, 800);
-      });
-    }
-  });
-
-  // 渲染提醒清單
-  function renderMedList() {
-    const list = document.getElementById('med-list');
-    if (!list) return;
-    if (medReminders.length === 0) {
-      list.innerHTML = '<div style="text-align:center; padding:2rem; color:#9ca3af; font-size:0.9rem;">尚未設定任何用藥提醒<br>Belum ada pengingat obat</div>';
-      return;
-    }
-
-    list.innerHTML = medReminders.map(m => `
-      <div style="background:white; border:2px solid #e5e7eb; border-radius:12px; padding:1rem; margin-bottom:0.75rem; display:flex; align-items:center; gap:1rem; transition:all 0.2s;">
-        <div style="background:linear-gradient(135deg,#2563eb,#7c3aed); color:white; border-radius:10px; padding:0.5rem 0.75rem; text-align:center; min-width:60px; flex-shrink:0;">
-          <div style="font-size:1.1rem; font-weight:800;">${m.time}</div>
-        </div>
-        <div style="flex:1;">
-          <div style="font-weight:700; font-size:1rem; color:#1f2937;">${m.nameZh}</div>
-          <div style="color:#2563eb; font-size:0.85rem; font-style:italic;">${m.nameId}</div>
-          ${m.dose ? `<div style="color:#6b7280; font-size:0.8rem; margin-top:0.2rem;">💊 ${m.dose}</div>` : ''}
-          ${m.note ? `<div style="color:#6b7280; font-size:0.8rem;">📝 ${m.note}</div>` : ''}
-        </div>
-        <button onclick="deleteMed('${m.id}')" style="background:none; border:none; color:#d1d5db; font-size:1.2rem; cursor:pointer; padding:0.3rem; border-radius:6px; transition:all 0.2s;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#d1d5db'">✕</button>
-      </div>
-    `).join('');
-  }
-
-  function deleteMed(id) {
-    const med = medReminders.find(m => m.id === id);
-    if (!med) return;
-    if (confirm(`確定刪除「${med.nameZh}」提醒？\nHapus pengingat ini?`)) {
-      medReminders = medReminders.filter(m => m.id !== id);
-      renderMedList();
-    }
-  }
-
-  // 每分鐘更新時鐘並檢查提醒
-  setInterval(updateMedClock, 1000);
-  updateMedClock();
 
   // ===================== SCHEDULE =====================
   function toggleTask(checkbox) {
@@ -1508,8 +1278,7 @@
       if (GOOGLE_TRANSLATE_API_KEY === 'YOUR_API_KEY_HERE') { idInput.value = ''; return; }
       try {
         const res = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_TRANSLATE_API_KEY}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ q: val, source: 'zh-TW', target: 'id', format: 'text' })
         });
         const data = await res.json();
@@ -1520,53 +1289,46 @@
 
   function updateMedClock() {
     const now = new Date();
-    const hh = String(now.getHours()).padStart(2, '0');
-    const mm = String(now.getMinutes()).padStart(2, '0');
-    const timeStr = hh + ':' + mm;
+    const timeStr = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
     const clockEl = document.getElementById('med-clock');
     if (clockEl) clockEl.textContent = timeStr;
     const upcoming = medReminders.filter(m => m.time > timeStr).sort((a,b) => a.time.localeCompare(b.time));
     const nextEl = document.getElementById('med-next');
     if (nextEl) {
       if (upcoming.length > 0) nextEl.textContent = '⏭ 下一次：' + upcoming[0].time + ' ' + upcoming[0].nameZh;
-      else if (medReminders.length > 0) nextEl.textContent = '✅ 今日提醒已完成 Semua selesai';
+      else if (medReminders.length > 0) nextEl.textContent = '✅ 今日提醒已完成';
       else nextEl.textContent = '尚未設定提醒 / Belum ada pengingat';
     }
     const todayKey = now.toDateString();
     medReminders.forEach(m => {
       const key = todayKey + '-' + m.id;
-      if (m.time === timeStr && !alertedToday[key]) {
-        alertedToday[key] = true;
-        showMedAlert(m);
-      }
+      if (m.time === timeStr && !alertedToday[key]) { alertedToday[key] = true; showMedAlert(m); }
     });
   }
 
   function showMedAlert(med) {
     if (navigator.vibrate) navigator.vibrate([500,200,500,200,500]);
     const overlay = document.createElement('div');
+    overlay.setAttribute('data-med-overlay','1');
     overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem;';
     overlay.innerHTML = '<div style="background:white;border-radius:20px;padding:2rem;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">'
       + '<div style="font-size:4rem;margin-bottom:0.75rem">💊</div>'
-      + '<div style="background:#fef3c7;color:#92400e;padding:0.4rem 1rem;border-radius:999px;font-size:0.8rem;font-weight:700;display:inline-block;margin-bottom:1rem">⏰ ' + med.time + ' 用藥時間到！Waktunya minum obat!</div>'
+      + '<div style="background:#fef3c7;color:#92400e;padding:0.4rem 1rem;border-radius:999px;font-size:0.85rem;font-weight:700;display:inline-block;margin-bottom:1rem">⏰ ' + med.time + ' 用藥時間到！</div>'
       + '<h2 style="font-size:1.5rem;font-weight:800;color:#1f2937;margin-bottom:0.25rem">' + med.nameZh + '</h2>'
       + '<p style="color:#2563eb;font-size:1rem;font-style:italic;margin-bottom:0.75rem">' + med.nameId + '</p>'
-      + (med.dose ? '<p style="background:#eff6ff;padding:0.5rem 1rem;border-radius:8px;color:#1e3a8a;font-weight:600;margin-bottom:0.5rem">💊 劑量 Dosis: ' + med.dose + '</p>' : '')
+      + (med.dose ? '<p style="background:#eff6ff;padding:0.5rem 1rem;border-radius:8px;color:#1e3a8a;font-weight:600;margin-bottom:0.5rem">💊 ' + med.dose + '</p>' : '')
       + (med.note ? '<p style="color:#6b7280;font-size:0.9rem;margin-bottom:1rem">📝 ' + med.note + '</p>' : '')
       + '<div style="display:flex;gap:0.75rem;margin-top:1.25rem;">'
-      + '<button onclick="this.closest(\'[data-med-overlay]\').remove()" style="flex:1;padding:0.9rem;background:#10b981;color:white;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;">✅ 已服藥<br><span style="font-size:0.8rem;font-weight:400">Sudah minum</span></button>'
-      + '<button onclick="snoozeAlert(this,\'' + med.id + '\')" style="flex:1;padding:0.9rem;background:#f59e0b;color:white;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;">⏰ 稍後提醒<br><span style="font-size:0.8rem;font-weight:400">Ingatkan lagi</span></button>'
+      + '<button onclick="document.querySelector('[data-med-overlay]').remove()" style="flex:1;padding:0.9rem;background:#10b981;color:white;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;">✅ 已服藥<br><small>Sudah minum</small></button>'
+      + '<button onclick="snoozeAlert('' + med.id + '')" style="flex:1;padding:0.9rem;background:#f59e0b;color:white;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;">⏰ 稍後提醒<br><small>Ingatkan lagi</small></button>'
       + '</div></div>';
-    overlay.setAttribute('data-med-overlay', '1');
     document.body.appendChild(overlay);
   }
 
-  function snoozeAlert(btn, medId) {
-    btn.closest('[data-med-overlay]').remove();
-    setTimeout(() => {
-      const med = medReminders.find(m => m.id === medId);
-      if (med) showMedAlert(med);
-    }, 5 * 60 * 1000);
+  function snoozeAlert(medId) {
+    const overlay = document.querySelector('[data-med-overlay]');
+    if (overlay) overlay.remove();
+    setTimeout(() => { const med = medReminders.find(m => m.id === medId); if (med) showMedAlert(med); }, 5*60*1000);
   }
 
   async function addMedReminder() {
@@ -1575,49 +1337,34 @@
     const dose = document.getElementById('med-dose').value.trim();
     const time = document.getElementById('med-time').value;
     const note = document.getElementById('med-note').value.trim();
-    if (!nameZh) { alert('❌ 請輸入藥名 / Masukkan nama obat'); return; }
-    if (!time) { alert('❌ 請設定提醒時間 / Masukkan waktu'); return; }
+    if (!nameZh) { alert('❌ 請輸入藥名'); return; }
+    if (!time) { alert('❌ 請設定時間'); return; }
     const med = { id: Date.now().toString(), nameZh, nameId: (nameId && !nameId.includes('翻譯')) ? nameId : nameZh, dose, time, note };
     medReminders.push(med);
     medReminders.sort((a,b) => a.time.localeCompare(b.time));
     renderMedList();
-    document.getElementById('med-name-zh').value = '';
-    document.getElementById('med-name-id').value = '';
-    document.getElementById('med-dose').value = '';
-    document.getElementById('med-time').value = '';
-    document.getElementById('med-note').value = '';
+    ['med-name-zh','med-name-id','med-dose','med-time','med-note'].forEach(id => { document.getElementById(id).value = ''; });
     alert('✅ 已新增「' + nameZh + '」' + time + ' 的提醒！');
   }
 
   function renderMedList() {
     const list = document.getElementById('med-list');
     if (!list) return;
-    if (medReminders.length === 0) {
-      list.innerHTML = '<div style="text-align:center;padding:2rem;color:#9ca3af;font-size:0.9rem;">尚未設定任何用藥提醒<br>Belum ada pengingat obat</div>';
-      return;
-    }
+    if (!medReminders.length) { list.innerHTML = '<div style="text-align:center;padding:2rem;color:#9ca3af;">尚未設定提醒<br>Belum ada pengingat</div>'; return; }
     list.innerHTML = medReminders.map(m =>
       '<div style="background:white;border:2px solid #e5e7eb;border-radius:12px;padding:1rem;margin-bottom:0.75rem;display:flex;align-items:center;gap:1rem;">'
-      + '<div style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;border-radius:10px;padding:0.5rem 0.75rem;text-align:center;min-width:60px;flex-shrink:0;">'
-      + '<div style="font-size:1.1rem;font-weight:800;">' + m.time + '</div></div>'
-      + '<div style="flex:1;">'
-      + '<div style="font-weight:700;font-size:1rem;color:#1f2937;">' + m.nameZh + '</div>'
+      + '<div style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;border-radius:10px;padding:0.5rem 0.75rem;text-align:center;min-width:60px;flex-shrink:0;font-size:1.1rem;font-weight:800;">' + m.time + '</div>'
+      + '<div style="flex:1;"><div style="font-weight:700;color:#1f2937;">' + m.nameZh + '</div>'
       + '<div style="color:#2563eb;font-size:0.85rem;font-style:italic;">' + m.nameId + '</div>'
       + (m.dose ? '<div style="color:#6b7280;font-size:0.8rem;">💊 ' + m.dose + '</div>' : '')
-      + (m.note ? '<div style="color:#6b7280;font-size:0.8rem;">📝 ' + m.note + '</div>' : '')
-      + '</div>'
-      + '<button onclick="deleteMed(\'' + m.id + '\')" style="background:none;border:none;color:#d1d5db;font-size:1.2rem;cursor:pointer;padding:0.3rem;border-radius:6px;" onmouseover="this.style.color=\'#ef4444\'" onmouseout="this.style.color=\'#d1d5db\'">✕</button>'
-      + '</div>'
+      + (m.note ? '<div style="color:#6b7280;font-size:0.8rem;">📝 ' + m.note + '</div>' : '') + '</div>'
+      + '<button onclick="deleteMed('' + m.id + '')" style="background:none;border:none;color:#d1d5db;font-size:1.2rem;cursor:pointer;padding:0.3rem;border-radius:6px;">✕</button></div>'
     ).join('');
   }
 
   function deleteMed(id) {
     const med = medReminders.find(m => m.id === id);
-    if (!med) return;
-    if (confirm('確定刪除「' + med.nameZh + '」提醒？\nHapus pengingat ini?')) {
-      medReminders = medReminders.filter(m => m.id !== id);
-      renderMedList();
-    }
+    if (med && confirm('確定刪除「' + med.nameZh + '」？')) { medReminders = medReminders.filter(m => m.id !== id); renderMedList(); }
   }
 
   setInterval(updateMedClock, 1000);
