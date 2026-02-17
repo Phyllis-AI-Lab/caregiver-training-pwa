@@ -996,6 +996,7 @@
   window.addEventListener('load', () => {
     const status = document.getElementById('status-text');
     const box = document.getElementById('api-status');
+    if (GOOGLE_TRANSLATE_API_KEY === 'AIzaSyDcwz7AvpvjfEvRqPuXZ7s-uxKbbqhRa9I') {
       status.textContent = '❌ 目前使用離線模式，請設定 Google Translation API Key';
     } else {
       status.textContent = '✅ API 已設定，可使用即時翻譯！';
