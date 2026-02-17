@@ -153,6 +153,18 @@
       font-style: italic;
     }
     .task-time { color: #6b7280; font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
+    .task-delete {
+      background: none;
+      border: none;
+      color: #d1d5db;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .task-delete:hover { color: #ef4444; background: #fef2f2; }
 
     /* ===== TRANSLATE ===== */
     .translate-box {
@@ -530,57 +542,31 @@
       <div class="period-section">
         <div class="period-title">🌅 早上 Pagi <span style="font-size:0.85rem;font-weight:400;color:#6b7280">(06:00–12:00)</span></div>
         <div id="morning-tasks">
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">協助起床與盥洗</span><span class="task-id">Bantu bangun tidur dan cuci muka</span></span>
-            <span class="task-time">07:00</span></div>
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">準備早餐與餵食</span><span class="task-id">Siapkan sarapan dan bantu makan</span></span>
-            <span class="task-time">08:00</span></div>
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">測量生理指標（血壓、血糖）</span><span class="task-id">Ukur tanda vital (tensi, gula darah)</span></span>
-            <span class="task-time">09:00</span></div>
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">協助服藥</span><span class="task-id">Bantu minum obat</span></span>
-            <span class="task-time">10:00</span></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">協助起床與盥洗</span><span class="task-id">Bantu bangun tidur dan cuci muka</span></span><span class="task-time">07:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">準備早餐與餵食</span><span class="task-id">Siapkan sarapan dan bantu makan</span></span><span class="task-time">08:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">測量生理指標（血壓、血糖）</span><span class="task-id">Ukur tanda vital (tensi, gula darah)</span></span><span class="task-time">09:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">協助服藥</span><span class="task-id">Bantu minum obat</span></span><span class="task-time">10:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
         </div>
       </div>
 
       <div class="period-section">
         <div class="period-title">☀️ 下午 Siang <span style="font-size:0.85rem;font-weight:400;color:#6b7280">(12:00–18:00)</span></div>
         <div id="afternoon-tasks">
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">準備午餐與餵食</span><span class="task-id">Siapkan makan siang dan bantu makan</span></span>
-            <span class="task-time">12:00</span></div>
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">協助午休（翻身）</span><span class="task-id">Bantu tidur siang (balik badan)</span></span>
-            <span class="task-time">14:00</span></div>
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">簡易復健活動</span><span class="task-id">Latihan rehabilitasi ringan</span></span>
-            <span class="task-time">16:00</span></div>
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">補充水分</span><span class="task-id">Berikan minum air</span></span>
-            <span class="task-time">17:00</span></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">準備午餐與餵食</span><span class="task-id">Siapkan makan siang dan bantu makan</span></span><span class="task-time">12:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">協助午休（翻身）</span><span class="task-id">Bantu tidur siang (balik badan)</span></span><span class="task-time">14:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">簡易復健活動</span><span class="task-id">Latihan rehabilitasi ringan</span></span><span class="task-time">16:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">補充水分</span><span class="task-id">Berikan minum air</span></span><span class="task-time">17:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
         </div>
       </div>
 
       <div class="period-section">
         <div class="period-title">🌙 晚上 Malam <span style="font-size:0.85rem;font-weight:400;color:#6b7280">(18:00–06:00)</span></div>
         <div id="evening-tasks">
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">準備晚餐與餵食</span><span class="task-id">Siapkan makan malam dan bantu makan</span></span>
-            <span class="task-time">18:00</span></div>
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">協助服晚間藥物</span><span class="task-id">Bantu minum obat malam</span></span>
-            <span class="task-time">19:00</span></div>
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">協助洗澡</span><span class="task-id">Bantu mandi</span></span>
-            <span class="task-time">20:00</span></div>
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">就寢準備（翻身、拍背）</span><span class="task-id">Persiapan tidur (balik badan, tepuk punggung)</span></span>
-            <span class="task-time">21:00</span></div>
-          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)">
-            <span class="task-name"><span class="task-zh">夜間巡視（確認安全）</span><span class="task-id">Pemeriksaan malam (pastikan aman)</span></span>
-            <span class="task-time">23:00</span></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">準備晚餐與餵食</span><span class="task-id">Siapkan makan malam dan bantu makan</span></span><span class="task-time">18:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">協助服晚間藥物</span><span class="task-id">Bantu minum obat malam</span></span><span class="task-time">19:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">協助洗澡</span><span class="task-id">Bantu mandi</span></span><span class="task-time">20:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">就寢準備（翻身、拍背）</span><span class="task-id">Persiapan tidur (balik badan, tepuk punggung)</span></span><span class="task-time">21:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
+          <div class="task-item"><input type="checkbox" onchange="toggleTask(this)"><span class="task-name"><span class="task-zh">夜間巡視（確認安全）</span><span class="task-id">Pemeriksaan malam (pastikan aman)</span></span><span class="task-time">23:00</span><button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button></div>
         </div>
       </div>
 
@@ -936,6 +922,17 @@
     checkbox.parentElement.style.opacity = checkbox.checked ? '0.5' : '1';
   }
 
+  function deleteTask(btn) {
+    const item = btn.closest('.task-item');
+    const name = item.querySelector('.task-zh')?.textContent || item.querySelector('.task-name')?.textContent || '此工作';
+    if (confirm(`確定刪除「${name}」？\nHapus tugas ini?`)) {
+      item.style.transition = 'all 0.3s';
+      item.style.opacity = '0';
+      item.style.transform = 'translateX(20px)';
+      setTimeout(() => item.remove(), 300);
+    }
+  }
+
   function addTask() {
     const taskZh = prompt('請輸入中文工作名稱：\n（例如：協助復健）');
     if (!taskZh) return;
@@ -955,7 +952,8 @@
         <span class="task-zh">${taskZh}</span>
         <span class="task-id">${taskId}</span>
       </span>
-      <span class="task-time">${time}</span>`;
+      <span class="task-time">${time}</span>
+      <button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button>`;
     container.appendChild(div);
     alert('✅ 工作已新增！Tugas berhasil ditambahkan!');
   }
