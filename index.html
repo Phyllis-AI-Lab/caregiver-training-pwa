@@ -3,20 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>外籍看護培訓助手</title>
+  <meta name="theme-color" content="#2563eb">
+  <meta name="description" content="專為外籍看護設計的多語言培訓與工作管理系統">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="./manifest.json">
+  
+  <!-- Icons -->
+  <link rel="apple-touch-icon" href="./images/icons/icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./images/icons/icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./images/icons/icon-512x512.png">
+  
+  <title>外籍看護培訓助手 | Caregiver Training Assistant</title>
+  
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC', Roboto, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
+      color: #1f2937;
     }
+    
     .container {
       max-width: 1200px;
       margin: 0 auto;
       background: white;
       min-height: 100vh;
     }
+    
     .header {
       background: white;
       padding: 1.5rem;
@@ -24,27 +44,101 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    .header h1 { color: #2563eb; font-size: 1.5rem; }
+    
+    .header h1 {
+      color: #2563eb;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .lang-select {
+      padding: 0.5rem 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      background: white;
+      cursor: pointer;
+    }
+    
     .tabs {
       display: flex;
       background: white;
       border-bottom: 2px solid #e5e7eb;
+      overflow-x: auto;
+      position: sticky;
+      top: 72px;
+      z-index: 99;
     }
+    
     .tab {
       flex: 1;
-      padding: 1rem;
+      min-width: 80px;
+      padding: 1rem 0.5rem;
       border: none;
       background: transparent;
       cursor: pointer;
       text-align: center;
       transition: all 0.3s;
+      border-bottom: 2px solid transparent;
+      font-size: 0.9rem;
     }
-    .tab.active { color: #2563eb; border-bottom: 2px solid #2563eb; font-weight: 600; }
-    .content { padding: 2rem; }
-    .section { display: none; }
-    .section.active { display: block; animation: fadeIn 0.3s; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
+    .tab:hover {
+      background: rgba(37, 99, 235, 0.05);
+    }
+    
+    .tab.active {
+      color: #2563eb;
+      border-bottom-color: #2563eb;
+      font-weight: 600;
+    }
+    
+    .content {
+      padding: 1.5rem;
+      padding-bottom: 3rem;
+    }
+    
+    .section {
+      display: none;
+    }
+    
+    .section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    h2 {
+      color: #1f2937;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+    
+    h3 {
+      color: #2563eb;
+      margin: 1.5rem 0 1rem;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
     .btn {
       padding: 0.75rem 1.5rem;
       background: #2563eb;
@@ -53,237 +147,744 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 1rem;
+      font-weight: 600;
       transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-    .btn:hover { background: #1e40af; transform: translateY(-2px); }
+    
+    .btn:hover {
+      background: #1e40af;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .btn-secondary {
+      background: #6b7280;
+    }
+    
+    .btn-secondary:hover {
+      background: #4b5563;
+    }
+    
     .task-item {
       background: #f9fafb;
       padding: 1rem;
-      margin: 0.5rem 0;
+      margin: 0.75rem 0;
       border-radius: 8px;
       display: flex;
       gap: 1rem;
       align-items: center;
+      border: 2px solid #e5e7eb;
+      transition: all 0.3s;
     }
+    
+    .task-item:hover {
+      border-color: #2563eb;
+      transform: translateX(4px);
+    }
+    
+    .task-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+    
+    .task-name {
+      flex: 1;
+      font-weight: 500;
+    }
+    
+    .task-time {
+      color: #6b7280;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    
+    .translate-box {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      border: 2px solid #e5e7eb;
+    }
+    
+    .translate-box label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1f2937;
+    }
+    
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: white;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    
+    select:focus {
+      outline: none;
+      border-color: #2563eb;
+    }
+    
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 120px;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+    }
+    
+    textarea[readonly] {
+      background: #f9fafb;
+      cursor: default;
+    }
+    
+    .translate-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .translate-arrow {
+      text-align: center;
+      font-size: 2rem;
+      margin: 1rem 0;
+    }
+    
     .phrase-btn {
       width: 100%;
       margin: 0.5rem 0;
       padding: 1rem;
-      background: #f9fafb;
+      background: white;
       border: 2px solid #e5e7eb;
       border-radius: 8px;
       cursor: pointer;
       text-align: left;
       transition: all 0.3s;
     }
+    
     .phrase-btn:hover {
       border-color: #2563eb;
       background: #eff6ff;
+      transform: translateX(4px);
+    }
+    
+    .phrase-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #1f2937;
+    }
+    
+    .phrase-translation {
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+    
+    .training-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .training-card {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .training-card:hover {
+      border-color: #2563eb;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    
+    .training-icon {
+      font-size: 4rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    
+    .training-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1f2937;
+    }
+    
+    .training-subtitle {
+      color: #6b7280;
+      margin-bottom: 0.5rem;
+    }
+    
+    .training-desc {
+      color: #9ca3af;
+      font-size: 0.875rem;
+    }
+    
+    .alert-box {
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      border-left: 4px solid;
+      display: flex;
+      align-items: start;
+      gap: 1rem;
+    }
+    
+    .alert-warning {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #92400e;
+    }
+    
+    .alert-danger {
+      background: #fef2f2;
+      border-color: #ef4444;
+      color: #991b1b;
+    }
+    
+    .alert-success {
+      background: #d1fae5;
+      border-color: #10b981;
+      color: #065f46;
+    }
+    
+    .emergency-card {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      border: 2px solid #e5e7eb;
+    }
+    
+    .emergency-title {
+      color: #ef4444;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .emergency-steps {
+      line-height: 1.8;
+      padding-left: 1.5rem;
+    }
+    
+    .emergency-steps li {
+      margin-bottom: 0.75rem;
+    }
+    
+    .loading {
+      display: inline-block;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.2rem;
+      }
+      
+      .content {
+        padding: 1rem;
+      }
+      
+      .training-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .translate-actions {
+        flex-direction: column;
+      }
+      
+      .translate-actions .btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Header -->
     <header class="header">
-      <h1>👨‍⚕️ 看護助手</h1>
-      <select style="padding: 0.5rem; border-radius: 8px;">
-        <option>🇹🇼 繁體中文</option>
-        <option selected>🇮🇩 Bahasa Indonesia</option>
-        <option>🇻🇳 Tiếng Việt</option>
-        <option>🇹🇭 ภาษาไทย</option>
+      <h1>
+        <span>👨‍⚕️</span>
+        <span>看護助手</span>
+      </h1>
+      <select id="lang-select" class="lang-select">
+        <option value="zh-TW">🇹🇼 繁體中文</option>
+        <option value="id" selected>🇮🇩 Bahasa Indonesia</option>
+        <option value="vi">🇻🇳 Tiếng Việt</option>
+        <option value="th">🇹🇭 ภาษาไทย</option>
+        <option value="tl">🇵🇭 Filipino</option>
+        <option value="en">🇬🇧 English</option>
       </select>
     </header>
     
+    <!-- Navigation Tabs -->
     <nav class="tabs">
-      <button class="tab active" onclick="showTab('schedule', this)">📅 工作排程</button>
-      <button class="tab" onclick="showTab('translate', this)">🌐 即時翻譯</button>
-      <button class="tab" onclick="showTab('training', this)">📚 培訓課程</button>
-      <button class="tab" onclick="showTab('emergency', this)">🚨 緊急處理</button>
+      <button class="tab active" onclick="showTab('schedule', this)">
+        📅 工作排程
+      </button>
+      <button class="tab" onclick="showTab('translate', this)">
+        🌐 即時翻譯
+      </button>
+      <button class="tab" onclick="showTab('training', this)">
+        📚 培訓課程
+      </button>
+      <button class="tab" onclick="showTab('emergency', this)">
+        🚨 緊急處理
+      </button>
     </nav>
     
+    <!-- Main Content -->
     <main class="content">
+      
+      <!-- ========== 工作排程 Section ========== -->
       <section id="schedule" class="section active">
         <h2>每日工作排程 Daily Schedule</h2>
-        <h3 style="margin: 1.5rem 0 1rem; color: #2563eb;">🌅 早上 Morning</h3>
+        
+        <h3>🌅 早上 Morning (06:00 - 12:00)</h3>
         <div id="morning-tasks">
           <div class="task-item">
             <input type="checkbox" onchange="this.parentElement.style.opacity=this.checked?'0.5':'1'">
-            <span style="flex: 1;">協助起床與盥洗 Waking up and washing</span>
-            <span>07:00</span>
+            <span class="task-name">協助起床與盥洗 Waking up and washing</span>
+            <span class="task-time">07:00</span>
           </div>
           <div class="task-item">
             <input type="checkbox" onchange="this.parentElement.style.opacity=this.checked?'0.5':'1'">
-            <span style="flex: 1;">準備早餐與餵食 Breakfast and feeding</span>
-            <span>08:00</span>
+            <span class="task-name">準備早餐與餵食 Breakfast and feeding</span>
+            <span class="task-time">08:00</span>
           </div>
           <div class="task-item">
             <input type="checkbox" onchange="this.parentElement.style.opacity=this.checked?'0.5':'1'">
-            <span style="flex: 1;">測量生理指標 Vital signs</span>
-            <span>09:00</span>
+            <span class="task-name">測量生理指標 Measure vital signs</span>
+            <span class="task-time">09:00</span>
+          </div>
+          <div class="task-item">
+            <input type="checkbox" onchange="this.parentElement.style.opacity=this.checked?'0.5':'1'">
+            <span class="task-name">協助服藥 Medication</span>
+            <span class="task-time">10:00</span>
           </div>
         </div>
         
-        <h3 style="margin: 1.5rem 0 1rem; color: #2563eb;">☀️ 下午 Afternoon</h3>
+        <h3>☀️ 下午 Afternoon (12:00 - 18:00)</h3>
         <div id="afternoon-tasks">
           <div class="task-item">
             <input type="checkbox" onchange="this.parentElement.style.opacity=this.checked?'0.5':'1'">
-            <span style="flex: 1;">準備午餐 Lunch</span>
-            <span>12:00</span>
+            <span class="task-name">準備午餐 Prepare lunch</span>
+            <span class="task-time">12:00</span>
           </div>
           <div class="task-item">
             <input type="checkbox" onchange="this.parentElement.style.opacity=this.checked?'0.5':'1'">
-            <span style="flex: 1;">協助午休 Nap time</span>
-            <span>14:00</span>
+            <span class="task-name">協助午休 Assist with nap</span>
+            <span class="task-time">14:00</span>
+          </div>
+          <div class="task-item">
+            <input type="checkbox" onchange="this.parentElement.style.opacity=this.checked?'0.5':'1'">
+            <span class="task-name">簡易復健活動 Simple rehabilitation</span>
+            <span class="task-time">16:00</span>
           </div>
         </div>
         
-        <h3 style="margin: 1.5rem 0 1rem; color: #2563eb;">🌙 晚上 Evening</h3>
+        <h3>🌙 晚上 Evening (18:00 - 06:00)</h3>
         <div id="evening-tasks">
           <div class="task-item">
             <input type="checkbox" onchange="this.parentElement.style.opacity=this.checked?'0.5':'1'">
-            <span style="flex: 1;">準備晚餐 Dinner</span>
-            <span>18:00</span>
+            <span class="task-name">準備晚餐 Prepare dinner</span>
+            <span class="task-time">18:00</span>
           </div>
           <div class="task-item">
             <input type="checkbox" onchange="this.parentElement.style.opacity=this.checked?'0.5':'1'">
-            <span style="flex: 1;">協助洗澡 Bathing</span>
-            <span>20:00</span>
+            <span class="task-name">協助洗澡 Assist with bathing</span>
+            <span class="task-time">20:00</span>
+          </div>
+          <div class="task-item">
+            <input type="checkbox" onchange="this.parentElement.style.opacity=this.checked?'0.5':'1'">
+            <span class="task-name">就寢準備 Prepare for bed</span>
+            <span class="task-time">21:00</span>
           </div>
         </div>
         
-        <button class="btn" style="margin-top: 1rem;" onclick="addTask()">➕ 新增工作 Add Task</button>
+        <button class="btn" style="margin-top: 1.5rem;" onclick="addTask()">
+          ➕ 新增工作 Add Task
+        </button>
       </section>
       
+      <!-- ========== 即時翻譯 Section ========== -->
       <section id="translate" class="section">
-        <h2>即時翻譯 Translation</h2>
-        <div style="margin: 1.5rem 0;">
-          <label><strong>中文 Chinese</strong></label>
-          <textarea id="source-text" style="width: 100%; padding: 1rem; border-radius: 8px; min-height: 100px; margin-top: 0.5rem; border: 2px solid #e5e7eb;" placeholder="輸入中文..." oninput="autoTranslate()"></textarea>
-        </div>
-        <div style="text-align: center; font-size: 2rem; margin: 1rem 0;">⬇️</div>
-        <div style="margin: 1.5rem 0;">
-          <label><strong>印尼文 Indonesian</strong></label>
-          <textarea id="target-text" style="width: 100%; padding: 1rem; border-radius: 8px; min-height: 100px; margin-top: 0.5rem; border: 2px solid #e5e7eb; background: #f9fafb;" placeholder="Terjemahan..." readonly></textarea>
+        <h2>即時翻譯 Real-time Translation</h2>
+        
+        <div class="translate-box">
+          <label>來源語言 Source Language</label>
+          <select id="source-lang">
+            <option value="zh-TW" selected>繁體中文 Traditional Chinese</option>
+            <option value="zh-CN">简体中文 Simplified Chinese</option>
+            <option value="id">Bahasa Indonesia</option>
+            <option value="vi">Tiếng Việt</option>
+            <option value="th">ภาษาไทย</option>
+            <option value="tl">Filipino</option>
+            <option value="en">English</option>
+          </select>
+          
+          <textarea id="source-text" placeholder="輸入文字... Type here..." style="margin-top: 1rem;"></textarea>
         </div>
         
-        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">常用語句 Common Phrases</h3>
+        <div class="translate-arrow">⬇️</div>
+        
+        <div class="translate-box">
+          <label>目標語言 Target Language</label>
+          <select id="target-lang">
+            <option value="zh-TW">繁體中文 Traditional Chinese</option>
+            <option value="zh-CN">简体中文 Simplified Chinese</option>
+            <option value="id" selected>Bahasa Indonesia</option>
+            <option value="vi">Tiếng Việt</option>
+            <option value="th">ภาษาไทย</option>
+            <option value="tl">Filipino</option>
+            <option value="en">English</option>
+          </select>
+          
+          <textarea id="target-text" placeholder="翻譯結果... Translation result..." readonly style="margin-top: 1rem;"></textarea>
+        </div>
+        
+        <div class="translate-actions">
+          <button class="btn" onclick="translateText()" id="translate-btn">
+            🔄 翻譯 Translate
+          </button>
+          <button class="btn btn-secondary" onclick="clearText()">
+            🗑️ 清除 Clear
+          </button>
+        </div>
+        
+        <h3 style="margin-top: 2rem;">常用語句 Common Phrases</h3>
         
         <button class="phrase-btn" onclick="quickTranslate('您好', 'Halo')">
-          <div style="font-weight: 600; margin-bottom: 0.25rem;">您好</div>
-          <div style="color: #6b7280; font-size: 0.9rem;">Halo</div>
+          <div class="phrase-title">您好</div>
+          <div class="phrase-translation">Halo / Hello</div>
         </button>
         
         <button class="phrase-btn" onclick="quickTranslate('吃藥時間到了', 'Saatnya minum obat')">
-          <div style="font-weight: 600; margin-bottom: 0.25rem;">吃藥時間到了</div>
-          <div style="color: #6b7280; font-size: 0.9rem;">Saatnya minum obat</div>
+          <div class="phrase-title">吃藥時間到了</div>
+          <div class="phrase-translation">Saatnya minum obat / Time to take medicine</div>
         </button>
         
         <button class="phrase-btn" onclick="quickTranslate('需要幫忙嗎？', 'Apakah Anda butuh bantuan?')">
-          <div style="font-weight: 600; margin-bottom: 0.25rem;">需要幫忙嗎？</div>
-          <div style="color: #6b7280; font-size: 0.9rem;">Apakah Anda butuh bantuan?</div>
+          <div class="phrase-title">需要幫忙嗎？</div>
+          <div class="phrase-translation">Apakah Anda butuh bantuan? / Do you need help?</div>
         </button>
         
         <button class="phrase-btn" onclick="quickTranslate('我們去散步', 'Mari kita jalan-jalan')">
-          <div style="font-weight: 600; margin-bottom: 0.25rem;">我們去散步</div>
-          <div style="color: #6b7280; font-size: 0.9rem;">Mari kita jalan-jalan</div>
+          <div class="phrase-title">我們去散步</div>
+          <div class="phrase-translation">Mari kita jalan-jalan / Let's go for a walk</div>
         </button>
         
         <button class="phrase-btn" onclick="quickTranslate('請喝水', 'Silakan minum air')">
-          <div style="font-weight: 600; margin-bottom: 0.25rem;">請喝水</div>
-          <div style="color: #6b7280; font-size: 0.9rem;">Silakan minum air</div>
+          <div class="phrase-title">請喝水</div>
+          <div class="phrase-translation">Silakan minum air / Please drink water</div>
         </button>
         
-        <div style="margin-top: 1.5rem; padding: 1rem; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
-          <strong>💡 提示：</strong> 點擊常用語句會自動填入翻譯！完整版將整合 Google Translation API 支援任意文字翻譯。
+        <button class="phrase-btn" onclick="quickTranslate('您今天感覺如何？', 'Bagaimana perasaan Anda hari ini?')">
+          <div class="phrase-title">您今天感覺如何？</div>
+          <div class="phrase-translation">Bagaimana perasaan Anda hari ini? / How are you feeling today?</div>
+        </button>
+        
+        <div id="api-status" class="alert-box alert-warning">
+          <span style="font-size: 1.5rem;">💡</span>
+          <div>
+            <strong>API 狀態：</strong>
+            <span id="status-text">等待設定...</span>
+          </div>
         </div>
       </section>
       
+      <!-- ========== 培訓課程 Section ========== -->
       <section id="training" class="section">
-        <h2>培訓課程 Training</h2>
-        <div style="display: grid; gap: 1rem; margin-top: 1.5rem;">
-          <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; cursor: pointer; border: 2px solid #e5e7eb;" onclick="showTraining('hygiene')">
-            <div style="font-size: 3rem; text-align: center;">🚿</div>
-            <h3>個人衛生照護 Personal Hygiene</h3>
-            <p style="color: #6b7280;">洗澡、更衣、口腔清潔</p>
+        <h2>培訓課程 Training Courses</h2>
+        
+        <div class="training-grid">
+          <div class="training-card" onclick="showTraining('hygiene')">
+            <div class="training-icon">🚿</div>
+            <h3 class="training-title">個人衛生照護</h3>
+            <p class="training-subtitle">Personal Hygiene Care</p>
+            <p class="training-desc">洗澡、更衣、口腔清潔 / Bathing, Dressing, Oral care</p>
           </div>
-          <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; cursor: pointer; border: 2px solid #e5e7eb;" onclick="showTraining('meal')">
-            <div style="font-size: 3rem; text-align: center;">🍚</div>
-            <h3>飲食照護 Meal Care</h3>
-            <p style="color: #6b7280;">準備餐點、餵食、餵藥</p>
+          
+          <div class="training-card" onclick="showTraining('meal')">
+            <div class="training-icon">🍚</div>
+            <h3 class="training-title">飲食照護</h3>
+            <p class="training-subtitle">Meal Care</p>
+            <p class="training-desc">準備餐點、餵食、餵藥 / Meal prep, Feeding, Medication</p>
           </div>
-          <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; cursor: pointer; border: 2px solid #e5e7eb;" onclick="showTraining('activity')">
-            <div style="font-size: 3rem; text-align: center;">♿</div>
-            <h3>活動輔助 Activity Assistance</h3>
-            <p style="color: #6b7280;">翻身、移位、復健動作</p>
+          
+          <div class="training-card" onclick="showTraining('activity')">
+            <div class="training-icon">♿</div>
+            <h3 class="training-title">活動輔助</h3>
+            <p class="training-subtitle">Activity Assistance</p>
+            <p class="training-desc">翻身、移位、復健 / Turning, Transfer, Rehabilitation</p>
+          </div>
+          
+          <div class="training-card" onclick="showTraining('vital')">
+            <div class="training-icon">🩺</div>
+            <h3 class="training-title">生理監測</h3>
+            <p class="training-subtitle">Vital Signs Monitoring</p>
+            <p class="training-desc">血壓、血糖、體溫 / BP, Sugar, Temperature</p>
+          </div>
+          
+          <div class="training-card" onclick="showTraining('medication')">
+            <div class="training-icon">💊</div>
+            <h3 class="training-title">用藥管理</h3>
+            <p class="training-subtitle">Medication Management</p>
+            <p class="training-desc">按時服藥、藥物記錄 / Schedule & Record</p>
+          </div>
+          
+          <div class="training-card" onclick="showTraining('tube')">
+            <div class="training-icon">🏥</div>
+            <h3 class="training-title">管路照顧</h3>
+            <p class="training-subtitle">Tube Care</p>
+            <p class="training-desc">鼻胃管、氣切 / NG tube, Tracheostomy</p>
           </div>
         </div>
       </section>
       
+      <!-- ========== 緊急處理 Section ========== -->
       <section id="emergency" class="section">
         <h2>緊急處理指南 Emergency Guide</h2>
-        <div style="background: #fef2f2; border: 2px solid #ef4444; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; color: #ef4444; font-weight: 600;">
-          ⚠️ 緊急情況請立即撥打 119！Call 119 immediately!
+        
+        <div class="alert-box alert-danger">
+          <span style="font-size: 2rem;">⚠️</span>
+          <div>
+            <strong style="font-size: 1.1rem;">緊急情況請立即撥打 119 或聯繫家屬！</strong>
+            <br>
+            <span style="font-size: 0.9rem;">In case of emergency, call 119 or contact family immediately!</span>
+          </div>
         </div>
-        <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; margin: 1rem 0;">
-          <h3 style="color: #ef4444;">🤕 跌倒處理 Fall Management</h3>
-          <ol style="margin-top: 1rem; line-height: 1.8; padding-left: 1.5rem;">
-            <li>保持冷靜，不要移動病患 Stay calm, don't move patient</li>
-            <li>檢查意識與呼吸 Check consciousness and breathing</li>
-            <li>如有出血，壓迫止血 Apply pressure if bleeding</li>
-            <li>立即撥打 119 Call 119 immediately</li>
+        
+        <div class="emergency-card">
+          <h3 class="emergency-title">
+            <span>🤕</span>
+            <span>跌倒處理 Fall Management</span>
+          </h3>
+          <ol class="emergency-steps">
+            <li><strong>保持冷靜，不要移動病患</strong><br>Stay calm, don't move the patient</li>
+            <li><strong>檢查意識與呼吸</strong><br>Check consciousness and breathing</li>
+            <li><strong>如有出血，壓迫止血</strong><br>If bleeding, apply pressure</li>
+            <li><strong>立即撥打 119</strong><br>Call 119 immediately</li>
+            <li><strong>記錄跌倒時間與情況</strong><br>Record time and situation</li>
           </ol>
         </div>
-        <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; margin: 1rem 0;">
-          <h3 style="color: #ef4444;">😮 嗆咳處理 Choking</h3>
-          <ol style="margin-top: 1rem; line-height: 1.8; padding-left: 1.5rem;">
-            <li>立即停止進食 Stop eating immediately</li>
-            <li>鼓勵咳嗽 Encourage coughing</li>
-            <li>身體前傾拍背 Lean forward and pat back</li>
-            <li>如無法呼吸，施行哈姆立克法 Perform Heimlich if needed</li>
+        
+        <div class="emergency-card">
+          <h3 class="emergency-title">
+            <span>😮</span>
+            <span>嗆咳處理 Choking Management</span>
+          </h3>
+          <ol class="emergency-steps">
+            <li><strong>立即停止進食</strong><br>Stop eating immediately</li>
+            <li><strong>鼓勵咳嗽</strong><br>Encourage coughing</li>
+            <li><strong>身體前傾拍背</strong><br>Lean forward and pat back</li>
+            <li><strong>如無法呼吸，施行哈姆立克法</strong><br>If can't breathe, perform Heimlich maneuver</li>
+            <li><strong>撥打 119</strong><br>Call 119</li>
+          </ol>
+        </div>
+        
+        <div class="emergency-card">
+          <h3 class="emergency-title">
+            <span>🍬</span>
+            <span>低血糖處理 Low Blood Sugar</span>
+          </h3>
+          <ol class="emergency-steps">
+            <li><strong>確認症狀：冒汗、發抖、心悸</strong><br>Confirm symptoms: sweating, shaking, palpitations</li>
+            <li><strong>立即補充糖分（果汁、糖果）</strong><br>Give sugar immediately (juice, candy)</li>
+            <li><strong>測量血糖值</strong><br>Measure blood sugar level</li>
+            <li><strong>讓病患休息</strong><br>Let patient rest</li>
+            <li><strong>15分鐘後再測血糖</strong><br>Recheck blood sugar after 15 minutes</li>
           </ol>
         </div>
       </section>
+      
     </main>
   </div>
   
+  <!-- JavaScript -->
   <script>
-    // Tab switching
-    function showTab(tabName, button) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.getElementById(tabName).classList.add('active');
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      button.classList.add('active');
-    }
+    // ==================== 設定區 ====================
+    // Google Translation API Key (請替換成你的實際 API Key)
+    const GOOGLE_TRANSLATE_API_KEY = 'YOUR_API_KEY_HERE';
     
-    // Quick translation
-    function quickTranslate(chinese, indonesian) {
-      document.getElementById('source-text').value = chinese;
-      document.getElementById('target-text').value = indonesian;
-      alert('✅ 已填入翻譯！\n中文：' + chinese + '\n印尼文：' + indonesian);
-    }
+    // ==================== 初始化 ====================
+    window.addEventListener('load', () => {
+      checkAPIStatus();
+      console.log('🚀 外籍看護培訓助手 PWA v2.0 已載入');
+    });
     
-    // Auto translate (basic)
-    const translations = {
-      '您好': 'Halo',
-      '吃藥時間到了': 'Saatnya minum obat',
-      '需要幫忙嗎？': 'Apakah Anda butuh bantuan?',
-      '我們去散步': 'Mari kita jalan-jalan',
-      '請喝水': 'Silakan minum air'
-    };
-    
-    function autoTranslate() {
-      const source = document.getElementById('source-text').value;
-      const target = document.getElementById('target-text');
-      if (translations[source]) {
-        target.value = translations[source];
-      } else if (source) {
-        target.value = '需要 Google Translation API\n完整版將支援即時翻譯';
+    // 檢查 API 狀態
+    function checkAPIStatus() {
+      const statusText = document.getElementById('status-text');
+      if (GOOGLE_TRANSLATE_API_KEY === 'YOUR_API_KEY_HERE') {
+        statusText.textContent = '❌ 目前使用離線模式（僅支援常用語句）。設定 Google Translation API 以啟用完整翻譯功能。';
       } else {
-        target.value = '';
+        statusText.textContent = '✅ API 已設定，可使用即時翻譯功能！';
+        document.getElementById('api-status').className = 'alert-box alert-success';
       }
     }
     
-    // Add task
+    // ==================== 標籤切換 ====================
+    function showTab(tabName, button) {
+      // 隱藏所有 section
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      // 顯示選中的 section
+      document.getElementById(tabName).classList.add('active');
+      
+      // 更新標籤按鈕狀態
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      button.classList.add('active');
+      
+      // 滾動到頂部
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // ==================== 翻譯功能 ====================
+    
+    // 常用語句快速翻譯
+    function quickTranslate(chinese, indonesian) {
+      document.getElementById('source-text').value = chinese;
+      document.getElementById('target-text').value = indonesian;
+      
+      // 顯示提示
+      showNotification('✅ 已填入翻譯！\n中文：' + chinese + '\n印尼文：' + indonesian);
+    }
+    
+    // 即時翻譯（使用 Google API）
+    async function translateText() {
+      const sourceText = document.getElementById('source-text').value.trim();
+      const sourceLang = document.getElementById('source-lang').value;
+      const targetLang = document.getElementById('target-lang').value;
+      const targetTextarea = document.getElementById('target-text');
+      const translateBtn = document.getElementById('translate-btn');
+      
+      // 驗證輸入
+      if (!sourceText) {
+        showNotification('❌ 請輸入要翻譯的文字');
+        return;
+      }
+      
+      if (sourceLang === targetLang) {
+        showNotification('❌ 來源語言和目標語言不能相同');
+        return;
+      }
+      
+      // 檢查是否設定 API Key
+      if (GOOGLE_TRANSLATE_API_KEY === 'YOUR_API_KEY_HERE') {
+        // 離線模式 - 使用常用語句庫
+        const offlineTranslations = {
+          '您好': 'Halo',
+          '吃藥時間到了': 'Saatnya minum obat',
+          '需要幫忙嗎？': 'Apakah Anda butuh bantuan?',
+          '我們去散步': 'Mari kita jalan-jalan',
+          '請喝水': 'Silakan minum air',
+          '您今天感覺如何？': 'Bagaimana perasaan Anda hari ini?'
+        };
+        
+        if (offlineTranslations[sourceText]) {
+          targetTextarea.value = offlineTranslations[sourceText];
+          showNotification('✅ 翻譯完成（離線模式）');
+        } else {
+          showNotification('❌ 離線模式僅支援常用語句\n\n請設定 Google Translation API Key 以使用完整翻譯功能\n\n或點擊下方的常用語句按鈕');
+        }
+        return;
+      }
+      
+      // 使用 Google Translation API
+      translateBtn.disabled = true;
+      translateBtn.innerHTML = '<span class="loading">🔄</span> 翻譯中...';
+      targetTextarea.value = '翻譯中，請稍候...';
+      
+      try {
+        const response = await fetch(
+          `https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_TRANSLATE_API_KEY}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              q: sourceText,
+              source: sourceLang,
+              target: targetLang,
+              format: 'text'
+            })
+          }
+        );
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error?.message || `HTTP ${response.status}`);
+        }
+        
+        const data = await response.json();
+        const translatedText = data.data.translations[0].translatedText;
+        
+        targetTextarea.value = translatedText;
+        showNotification('✅ 翻譯完成！');
+        
+      } catch (error) {
+        console.error('Translation error:', error);
+        targetTextarea.value = '';
+        showNotification(
+          '❌ 翻譯失敗\n\n' +
+          '錯誤：' + error.message + '\n\n' +
+          '請檢查：\n' +
+          '1. API Key 是否正確\n' +
+          '2. 網路連線狀態\n' +
+          '3. API 配額是否足夠'
+        );
+      } finally {
+        translateBtn.disabled = false;
+        translateBtn.innerHTML = '🔄 翻譯 Translate';
+      }
+    }
+    
+    // 清除文字
+    function clearText() {
+      document.getElementById('source-text').value = '';
+      document.getElementById('target-text').value = '';
+    }
+    
+    // ==================== 工作管理 ====================
     function addTask() {
       const taskName = prompt('請輸入工作名稱\nEnter task name:');
       if (!taskName) return;
@@ -291,41 +892,95 @@
       const time = prompt('請輸入時間 (例如: 15:00)\nEnter time (e.g., 15:00):');
       if (!time) return;
       
-      const period = prompt('選擇時段\nSelect period:\n1 = 早上 Morning\n2 = 下午 Afternoon\n3 = 晚上 Evening');
+      const period = prompt('選擇時段 Select period:\n1 = 早上 Morning\n2 = 下午 Afternoon\n3 = 晚上 Evening');
       
       let container;
       if (period === '1') container = document.getElementById('morning-tasks');
       else if (period === '2') container = document.getElementById('afternoon-tasks');
       else if (period === '3') container = document.getElementById('evening-tasks');
       else {
-        alert('❌ 無效的時段選擇');
+        showNotification('❌ 無效的時段選擇');
         return;
       }
       
+      // 建立新工作項目
       const taskItem = document.createElement('div');
       taskItem.className = 'task-item';
       taskItem.innerHTML = `
         <input type="checkbox" onchange="this.parentElement.style.opacity=this.checked?'0.5':'1'">
-        <span style="flex: 1;">${taskName}</span>
-        <span>${time}</span>
+        <span class="task-name">${taskName}</span>
+        <span class="task-time">${time}</span>
       `;
       
       container.appendChild(taskItem);
-      alert('✅ 工作已新增！\nTask added!');
+      showNotification('✅ 工作已新增！\nTask added successfully!');
     }
     
-    // Show training
+    // ==================== 培訓課程 ====================
     function showTraining(type) {
-      const content = {
-        hygiene: '個人衛生照護課程\n\n內容包括：\n• 協助洗澡技巧\n• 更衣協助\n• 口腔清潔\n• 指甲修剪\n• 皮膚照護',
-        meal: '飲食照護課程\n\n內容包括：\n• 準備適合長者的餐點\n• 安全餵食技巧\n• 預防嗆咳\n• 協助服藥\n• 營養記錄',
-        activity: '活動輔助課程\n\n內容包括：\n• 安全翻身技巧\n• 床椅移位\n• 輪椅使用\n• 簡易復健運動\n• 預防跌倒'
+      const courses = {
+        hygiene: {
+          title: '個人衛生照護課程\nPersonal Hygiene Care',
+          content: '內容包括：\n\n• 協助洗澡技巧\n• 更衣協助方法\n• 口腔清潔護理\n• 指甲修剪\n• 皮膚照護\n\nContent:\n• Bathing assistance\n• Dressing support\n• Oral care\n• Nail trimming\n• Skin care'
+        },
+        meal: {
+          title: '飲食照護課程\nMeal Care',
+          content: '內容包括：\n\n• 準備適合長者的餐點\n• 安全餵食技巧\n• 預防嗆咳方法\n• 協助服藥\n• 營養記錄\n\nContent:\n• Meal preparation\n• Safe feeding techniques\n• Choking prevention\n• Medication assistance\n• Nutrition tracking'
+        },
+        activity: {
+          title: '活動輔助課程\nActivity Assistance',
+          content: '內容包括：\n\n• 安全翻身技巧\n• 床椅移位方法\n• 輪椅使用\n• 簡易復健運動\n• 預防跌倒\n\nContent:\n• Safe turning techniques\n• Bed-to-chair transfer\n• Wheelchair use\n• Simple rehabilitation\n• Fall prevention'
+        },
+        vital: {
+          title: '生理監測課程\nVital Signs Monitoring',
+          content: '內容包括：\n\n• 血壓測量方法\n• 血糖監測\n• 體溫測量\n• 脈搏檢查\n• 異常情況辨識\n\nContent:\n• Blood pressure measurement\n• Blood sugar monitoring\n• Temperature measurement\n• Pulse checking\n• Abnormal signs recognition'
+        },
+        medication: {
+          title: '用藥管理課程\nMedication Management',
+          content: '內容包括：\n\n• 按時服藥提醒\n• 藥物保存方法\n• 副作用觀察\n• 用藥記錄\n• 緊急用藥處理\n\nContent:\n• Medication reminders\n• Drug storage\n• Side effects monitoring\n• Medication records\n• Emergency medication'
+        },
+        tube: {
+          title: '管路照顧課程\nTube Care',
+          content: '內容包括：\n\n• 鼻胃管護理\n• 氣切護理\n• 導尿管照護\n• 傷口護理\n• 感染預防\n\nContent:\n• NG tube care\n• Tracheostomy care\n• Catheter care\n• Wound care\n• Infection prevention'
+        }
       };
-      alert(content[type] || '課程內容載入中...');
+      
+      const course = courses[type];
+      if (course) {
+        showNotification(course.title + '\n\n' + course.content);
+      }
     }
     
-    console.log('🚀 外籍看護培訓助手 PWA 已載入！');
-    console.log('✅ 所有功能正常運作');
+    // ==================== 通知系統 ====================
+    function showNotification(message) {
+      alert(message);
+    }
+    
+    // ==================== Service Worker ====================
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js')
+        .then(registration => {
+          console.log('✅ Service Worker registered:', registration.scope);
+        })
+        .catch(error => {
+          console.error('❌ Service Worker registration failed:', error);
+        });
+    }
+    
+    // ==================== 安裝提示 ====================
+    let deferredPrompt;
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      console.log('💡 PWA 可安裝');
+    });
+    
+    window.addEventListener('appinstalled', () => {
+      console.log('✅ PWA 已安裝');
+      deferredPrompt = null;
+    });
+    
   </script>
 </body>
 </html>
