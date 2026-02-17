@@ -165,6 +165,11 @@
       flex-shrink: 0;
     }
     .task-delete:hover { color: #ef4444; background: #fef2f2; }
+    .pending-translate {
+      color: #f59e0b !important;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink { 0%,100%{ opacity:1 } 50%{ opacity:0.4 } }
 
     /* ===== TRANSLATE ===== */
     .translate-box {
@@ -933,29 +938,58 @@
     }
   }
 
-  function addTask() {
+  async function addTask() {
     const taskZh = prompt('請輸入中文工作名稱：\n（例如：協助復健）');
     if (!taskZh) return;
-    const taskId = prompt('請輸入印尼文工作名稱：\nMasukkan nama tugas dalam Bahasa Indonesia:\n（例如：Bantu rehabilitasi）');
-    if (!taskId) return;
-    const time = prompt('請輸入時間：\nMasukkan waktu:\n（例如：15:00）');
+
+    const time = prompt('請輸入時間：\n（例如：15:00）');
     if (!time) return;
+
     const period = prompt('選擇時段 Pilih waktu:\n1 = 早上 Pagi\n2 = 下午 Siang\n3 = 晚上 Malam');
     const containers = { '1': 'morning-tasks', '2': 'afternoon-tasks', '3': 'evening-tasks' };
     const container = document.getElementById(containers[period]);
     if (!container) { alert('❌ 無效的時段 / Waktu tidak valid'); return; }
+
+    // 先新增任務，印尼文顯示「翻譯中...」
     const div = document.createElement('div');
     div.className = 'task-item';
     div.innerHTML = `
       <input type="checkbox" onchange="toggleTask(this)">
       <span class="task-name">
         <span class="task-zh">${taskZh}</span>
-        <span class="task-id">${taskId}</span>
+        <span class="task-id pending-translate">⏳ 自動翻譯中...</span>
       </span>
       <span class="task-time">${time}</span>
       <button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button>`;
     container.appendChild(div);
-    alert('✅ 工作已新增！Tugas berhasil ditambahkan!');
+
+    // 滾動到新任務
+    div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // 自動翻譯中文 → 印尼文
+    const idSpan = div.querySelector('.pending-translate');
+    if (GOOGLE_TRANSLATE_API_KEY !== 'YOUR_API_KEY_HERE') {
+      try {
+        const res = await fetch(
+          `https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_TRANSLATE_API_KEY}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ q: taskZh, source: 'zh-TW', target: 'id', format: 'text' })
+          }
+        );
+        const data = await res.json();
+        const translated = data.data.translations[0].translatedText;
+        idSpan.textContent = translated;
+        idSpan.classList.remove('pending-translate');
+      } catch (e) {
+        idSpan.textContent = '（翻譯失敗）';
+        idSpan.classList.remove('pending-translate');
+      }
+    } else {
+      idSpan.textContent = '（未設定 API Key）';
+      idSpan.classList.remove('pending-translate');
+    }
   }
 
   // ===================== TRANSLATE =====================
