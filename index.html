@@ -532,11 +532,10 @@
 
   <!-- Tabs -->
   <nav class="tabs">
-    <button class="tab active" onclick="showTab('schedule',this)">📅 排程</button>
-    <button class="tab" onclick="showTab('med-reminder',this)">💊 用藥</button>
-    <button class="tab" onclick="showTab('translate',this)">🌐 翻譯</button>
-    <button class="tab" onclick="showTab('training',this)">📚 課程</button>
-    <button class="tab" onclick="showTab('emergency',this)">🚨 緊急</button>
+    <button class="tab active" onclick="showTab('schedule',this)">📅 工作排程</button>
+    <button class="tab" onclick="showTab('translate',this)">🌐 即時翻譯</button>
+    <button class="tab" onclick="showTab('training',this)">📚 培訓課程</button>
+    <button class="tab" onclick="showTab('emergency',this)">🚨 緊急處理</button>
   </nav>
 
   <main class="content">
@@ -758,32 +757,6 @@
   </main>
 </div>
 
-<!-- ========== 用藥提醒面板 ========== -->
-<div id="med-reminder-section" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:white;z-index:300;overflow-y:auto;padding-bottom:4rem;">
-  <div style="max-width:1200px;margin:0 auto;padding:1.5rem;">
-    <h2 style="margin-bottom:0.5rem">💊 用藥提醒 Pengingat Obat</h2>
-    <p style="color:#6b7280;font-size:0.9rem;margin-bottom:1.5rem">APP 開著時，時間到自動提醒 / Saat APP terbuka, pengingat otomatis</p>
-    <div style="background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:14px;padding:1.25rem;color:white;text-align:center;margin-bottom:1.5rem;">
-      <div style="font-size:0.875rem;opacity:0.85;margin-bottom:0.25rem">現在時間 Waktu Sekarang</div>
-      <div id="med-clock" style="font-size:2.5rem;font-weight:800;letter-spacing:2px">00:00</div>
-      <div id="med-next" style="font-size:0.85rem;opacity:0.9;margin-top:0.5rem">尚未設定提醒</div>
-    </div>
-    <div style="background:#f9fafb;border:2px solid #e5e7eb;border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;">
-      <h3 style="font-size:1rem;font-weight:700;margin-bottom:1rem;color:#2563eb">➕ 新增用藥提醒</h3>
-      <div style="display:grid;gap:0.75rem;">
-        <div><label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:0.3rem">藥名 Nama Obat</label><input id="med-name-zh" type="text" placeholder="例如：血壓藥" oninput="autoTranslateMedName(this.value)" style="width:100%;padding:0.7rem;border:2px solid #e5e7eb;border-radius:8px;font-size:0.95rem;"></div>
-        <div><label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:0.3rem">印尼文（自動翻譯）</label><input id="med-name-id" type="text" placeholder="⏳ 輸入中文後自動翻譯..." style="width:100%;padding:0.7rem;border:2px solid #e5e7eb;border-radius:8px;font-size:0.95rem;color:#2563eb;background:#f0f7ff;"></div>
-        <div><label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:0.3rem">劑量 Dosis</label><input id="med-dose" type="text" placeholder="例如：1 顆 / 1 butir" style="width:100%;padding:0.7rem;border:2px solid #e5e7eb;border-radius:8px;font-size:0.95rem;"></div>
-        <div><label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:0.3rem">提醒時間 Waktu</label><input id="med-time" type="time" style="width:100%;padding:0.7rem;border:2px solid #e5e7eb;border-radius:8px;font-size:0.95rem;"></div>
-        <div><label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:0.3rem">備註 Catatan</label><input id="med-note" type="text" placeholder="例如：飯後服用 / Setelah makan" style="width:100%;padding:0.7rem;border:2px solid #e5e7eb;border-radius:8px;font-size:0.95rem;"></div>
-      </div>
-      <button onclick="addMedReminder()" style="width:100%;margin-top:1rem;padding:0.9rem;background:#10b981;color:white;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;">➕ 新增提醒 Tambah Pengingat</button>
-    </div>
-    <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.75rem">📋 用藥時刻表 Jadwal Obat</h3>
-    <div id="med-list"><div style="text-align:center;padding:2rem;color:#9ca3af;">尚未設定任何用藥提醒<br>Belum ada pengingat obat</div></div>
-  </div>
-</div>
-
 <!-- ========== TRAINING MODAL ========== -->
 <div class="modal-overlay" id="lesson-modal" onclick="closeModalOnOverlay(event)">
   <div class="modal">
@@ -942,17 +915,259 @@
 
   // ===================== TAB =====================
   function showTab(tabName, button) {
-    const medPanel = document.getElementById('med-reminder-section');
-    if (medPanel) medPanel.style.display = 'none';
-    if (tabName === 'med-reminder') {
-      if (medPanel) medPanel.style.display = 'block';
-    } else {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.getElementById(tabName).classList.add('active');
-    }
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     button.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ===================== SCHEDULE =====================
+  function toggleTask(checkbox) {
+    checkbox.parentElement.style.opacity = checkbox.checked ? '0.5' : '1';
+  }
+
+  function deleteTask(btn) {
+    const item = btn.closest('.task-item');
+    const name = item.querySelector('.task-zh')?.textContent || item.querySelector('.task-name')?.textContent || '此工作';
+    if (confirm(`確定刪除「${name}」？\nHapus tugas ini?`)) {
+      item.style.transition = 'all 0.3s';
+      item.style.opacity = '0';
+      item.style.transform = 'translateX(20px)';
+      setTimeout(() => item.remove(), 300);
+    }
+  }
+
+  async function addTask() {
+    const taskZh = prompt('請輸入中文工作名稱：\n（例如：協助復健）');
+    if (!taskZh) return;
+
+    const time = prompt('請輸入時間：\n（例如：15:00）');
+    if (!time) return;
+
+    const period = prompt('選擇時段 Pilih waktu:\n1 = 早上 Pagi\n2 = 下午 Siang\n3 = 晚上 Malam');
+    const containers = { '1': 'morning-tasks', '2': 'afternoon-tasks', '3': 'evening-tasks' };
+    const container = document.getElementById(containers[period]);
+    if (!container) { alert('❌ 無效的時段 / Waktu tidak valid'); return; }
+
+    // 先新增任務，印尼文顯示「翻譯中...」
+    const div = document.createElement('div');
+    div.className = 'task-item';
+    div.innerHTML = `
+      <input type="checkbox" onchange="toggleTask(this)">
+      <span class="task-name">
+        <span class="task-zh">${taskZh}</span>
+        <span class="task-id pending-translate">⏳ 自動翻譯中...</span>
+      </span>
+      <span class="task-time">${time}</span>
+      <button class="task-delete" onclick="deleteTask(this)" title="刪除">✕</button>`;
+    container.appendChild(div);
+
+    // 滾動到新任務
+    div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // 自動翻譯中文 → 印尼文
+    const idSpan = div.querySelector('.pending-translate');
+    if (GOOGLE_TRANSLATE_API_KEY !== 'AIzaSyDcwz7AvpvjfEvRqPuXZ7s-uxKbbqhRa9I') {
+      try {
+        const res = await fetch(
+          `https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_TRANSLATE_API_KEY}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ q: taskZh, source: 'zh-TW', target: 'id', format: 'text' })
+          }
+        );
+        const data = await res.json();
+        const translated = data.data.translations[0].translatedText;
+        idSpan.textContent = translated;
+        idSpan.classList.remove('pending-translate');
+      } catch (e) {
+        idSpan.textContent = '（翻譯失敗）';
+        idSpan.classList.remove('pending-translate');
+      }
+    } else {
+      idSpan.textContent = '（未設定 API Key）';
+      idSpan.classList.remove('pending-translate');
+    }
+  }
+
+  // ===================== TRANSLATE =====================
+  window.addEventListener('load', () => {
+    const status = document.getElementById('status-text');
+    const box = document.getElementById('api-status');
+    if (GOOGLE_TRANSLATE_API_KEY === 'AIzaSyDcwz7AvpvjfEvRqPuXZ7s-uxKbbqhRa9I') {
+      status.textContent = '❌ 目前使用離線模式，請設定 Google Translation API Key';
+    } else {
+      status.textContent = '✅ API 已設定，可使用即時翻譯！';
+      box.className = 'alert alert-green';
+    }
+  });
+
+  function quickTranslate(zh, id) {
+    document.getElementById('source-text').value = zh;
+    document.getElementById('target-text').value = id;
+  }
+
+  async function translateText() {
+    const source = document.getElementById('source-text').value.trim();
+    const sourceLang = document.getElementById('source-lang').value;
+    const targetLang = document.getElementById('target-lang').value;
+    const target = document.getElementById('target-text');
+    const btn = document.getElementById('translate-btn');
+    if (!source) { alert('❌ 請輸入要翻譯的文字'); return; }
+    if (sourceLang === targetLang) { alert('❌ 來源和目標語言不能相同'); return; }
+    if (GOOGLE_TRANSLATE_API_KEY === 'AIzaSyDcwz7AvpvjfEvRqPuXZ7s-uxKbbqhRa9I') {
+      target.value = '離線模式：請使用下方的常用語句按鈕，或設定 Google Translation API Key';
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = '翻譯中...';
+    try {
+      const res = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_TRANSLATE_API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ q: source, source: sourceLang, target: targetLang, format: 'text' })
+      });
+      const data = await res.json();
+      target.value = data.data.translations[0].translatedText;
+    } catch (e) {
+      target.value = '';
+      alert('❌ 翻譯失敗：' + e.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '🔄 翻譯 Translate';
+    }
+  }
+
+  function clearText() {
+    document.getElementById('source-text').value = '';
+    document.getElementById('target-text').value = '';
+  }
+
+  // ===================== TRAINING MODAL =====================
+  function openLesson(key) {
+    currentLesson = key;
+    const lesson = lessons[key];
+    if (!stepsDone[key]) stepsDone[key] = new Set();
+
+    document.getElementById('modal-category').textContent = lesson.category;
+    document.getElementById('modal-title').textContent = lesson.title;
+
+    // Build body HTML
+    let html = '';
+
+    // Intro
+    html += `<div class="lesson-intro">${lesson.intro.replace('\n', '<br>')}</div>`;
+
+    // Progress
+    const done = stepsDone[key].size;
+    const total = lesson.steps.length;
+    const pct = Math.round(done / total * 100);
+    html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem">
+      <span style="font-weight:700;color:#1f2937">步驟進度 Steps</span>
+      <span style="font-size:0.875rem;color:#6b7280">${done}/${total} (${pct}%)</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>`;
+
+    // Steps
+    html += `<div class="step-list">`;
+    lesson.steps.forEach((step, i) => {
+      const done = stepsDone[key] && stepsDone[key].has(i);
+      html += `<div class="step-item ${done ? 'done' : ''}" onclick="toggleStep('${key}', ${i}, this)">
+        <div class="step-number">${done ? '✓' : i + 1}</div>
+        <div class="step-content">
+          <div class="step-text">${step.zh}</div>
+          <div class="step-sub">${step.id}</div>
+          ${step.note ? `<span class="bilingual-tag">💡 ${step.note}</span>` : ''}
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+
+    // Warning
+    if (lesson.warning) {
+      html += `<div class="warning-box" style="margin-top:1.25rem"><span>⚠️</span><span>${lesson.warning.replace('\n', '<br>')}</span></div>`;
+    }
+
+    // Tip
+    if (lesson.tip) {
+      html += `<div class="tip-box"><span>💚</span><span>${lesson.tip.replace('\n', '<br>')}</span></div>`;
+    }
+
+    // Vocabulary
+    html += `<hr class="section-divider">
+    <div style="font-weight:700;margin-bottom:0.5rem;color:#1f2937">📖 相關詞彙 Vocabulary</div>
+    <div class="vocab-grid">`;
+    lesson.vocab.forEach(v => {
+      html += `<div class="vocab-item"><div class="vocab-zh">${v.zh}</div><div class="vocab-id">${v.id}</div></div>`;
+    });
+    html += `</div>`;
+
+    document.getElementById('modal-body').innerHTML = html;
+
+    // Complete button state
+    const completeBtn = document.getElementById('complete-btn');
+    if (completedLessons.has(key)) {
+      completeBtn.textContent = '✅ 已完成 Completed';
+      completeBtn.style.background = '#6b7280';
+    } else {
+      completeBtn.textContent = '✅ 完成課程 Complete';
+      completeBtn.style.background = '#10b981';
+    }
+
+    document.getElementById('lesson-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function toggleStep(key, index, el) {
+    if (!stepsDone[key]) stepsDone[key] = new Set();
+    if (stepsDone[key].has(index)) {
+      stepsDone[key].delete(index);
+      el.classList.remove('done');
+      el.querySelector('.step-number').textContent = index + 1;
+    } else {
+      stepsDone[key].add(index);
+      el.classList.add('done');
+      el.querySelector('.step-number').textContent = '✓';
+    }
+    // Update progress bar in modal
+    const total = lessons[key].steps.length;
+    const done = stepsDone[key].size;
+    const pct = Math.round(done / total * 100);
+    const bar = document.querySelector('.modal-body .progress-bar');
+    if (bar) bar.style.width = pct + '%';
+    const countEl = document.querySelector('.modal-body .progress-bar-wrap');
+    if (countEl && countEl.previousElementSibling) {
+      countEl.previousElementSibling.querySelector('span:last-child').textContent = `${done}/${total} (${pct}%)`;
+    }
+  }
+
+  function markComplete() {
+    if (!currentLesson) return;
+    completedLessons.add(currentLesson);
+    document.getElementById(`card-${currentLesson}`).classList.add('completed');
+    const btn = document.getElementById('complete-btn');
+    btn.textContent = '✅ 已完成 Completed';
+    btn.style.background = '#6b7280';
+    updateOverallProgress();
+    setTimeout(() => closeLesson(), 800);
+  }
+
+  function updateOverallProgress() {
+    const count = completedLessons.size;
+    document.getElementById('completed-count').textContent = count;
+    document.getElementById('overall-progress').style.width = (count / 6 * 100) + '%';
+  }
+
+  function closeLesson() {
+    document.getElementById('lesson-modal').classList.remove('open');
+    document.body.style.overflow = '';
+    currentLesson = null;
+  }
+
+  function closeModalOnOverlay(e) {
+    if (e.target === document.getElementById('lesson-modal')) closeLesson();
   }
 
   // ===================== SERVICE WORKER =====================
@@ -961,113 +1176,6 @@
       .then(() => console.log('✅ SW registered'))
       .catch(e => console.error('SW error:', e));
   }
-
-  // ===================== 用藥提醒 =====================
-  let medReminders = [];
-  let alertedToday = {};
-  let medTranslateTimer = null;
-
-  function autoTranslateMedName(val) {
-    clearTimeout(medTranslateTimer);
-    const el = document.getElementById('med-name-id');
-    if (!val) { el.value = ''; return; }
-    el.value = '⏳ 翻譯中...';
-    medTranslateTimer = setTimeout(async () => {
-      if (GOOGLE_TRANSLATE_API_KEY === 'YOUR_API_KEY_HERE') { el.value = ''; return; }
-      try {
-        const r = await fetch('https://translation.googleapis.com/language/translate/v2?key=' + GOOGLE_TRANSLATE_API_KEY, {
-          method: 'POST', headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({q: val, source: 'zh-TW', target: 'id', format: 'text'})
-        });
-        const d = await r.json();
-        el.value = d.data.translations[0].translatedText;
-      } catch(e) { el.value = ''; }
-    }, 800);
-  }
-
-  function updateMedClock() {
-    const now = new Date();
-    const t = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-    const el = document.getElementById('med-clock');
-    if (el) el.textContent = t;
-    const up = medReminders.filter(m => m.time > t).sort((a,b) => a.time.localeCompare(b.time));
-    const nx = document.getElementById('med-next');
-    if (nx) nx.textContent = up.length ? '⏭ 下一次：' + up[0].time + ' ' + up[0].nameZh : (medReminders.length ? '✅ 今日提醒已完成' : '尚未設定提醒');
-    const dk = now.toDateString();
-    medReminders.forEach(m => {
-      const k = dk + '-' + m.id;
-      if (m.time === t && !alertedToday[k]) { alertedToday[k] = true; showMedAlert(m); }
-    });
-  }
-
-  function showMedAlert(med) {
-    if (navigator.vibrate) navigator.vibrate([500,200,500,200,500]);
-    const ov = document.createElement('div');
-    ov.setAttribute('data-med-ov','1');
-    ov.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem;';
-    ov.innerHTML = '<div style="background:white;border-radius:20px;padding:2rem;max-width:380px;width:100%;text-align:center;">'
-      + '<div style="font-size:3.5rem;margin-bottom:0.5rem">💊</div>'
-      + '<div style="background:#fef3c7;color:#92400e;padding:0.3rem 1rem;border-radius:999px;font-size:0.85rem;font-weight:700;display:inline-block;margin-bottom:1rem">⏰ ' + med.time + ' 用藥時間到！</div>'
-      + '<h2 style="font-size:1.4rem;font-weight:800;color:#1f2937;margin-bottom:0.2rem">' + med.nameZh + '</h2>'
-      + '<p style="color:#2563eb;font-style:italic;margin-bottom:0.75rem">' + med.nameId + '</p>'
-      + (med.dose ? '<p style="background:#eff6ff;padding:0.5rem;border-radius:8px;color:#1e3a8a;font-weight:600;margin-bottom:0.5rem">💊 ' + med.dose + '</p>' : '')
-      + (med.note ? '<p style="color:#6b7280;font-size:0.9rem;margin-bottom:0.75rem">📝 ' + med.note + '</p>' : '')
-      + '<div style="display:flex;gap:0.75rem;margin-top:1rem;">'
-      + '<button onclick="closeMedAlert()" style="flex:1;padding:0.8rem;background:#10b981;color:white;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:0.95rem;">✅ 已服藥</button>'
-      + '<button onclick="snoozeMedAlert(\'' + med.id + '\')" style="flex:1;padding:0.8rem;background:#f59e0b;color:white;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:0.95rem;">⏰ 稍後提醒</button>'
-      + '</div></div>';
-    document.body.appendChild(ov);
-  }
-
-  function closeMedAlert() {
-    const ov = document.querySelector('[data-med-ov]');
-    if (ov) ov.remove();
-  }
-
-  function snoozeMedAlert(medId) {
-    closeMedAlert();
-    setTimeout(() => { const m = medReminders.find(m => m.id === medId); if (m) showMedAlert(m); }, 5*60*1000);
-  }
-
-  async function addMedReminder() {
-    const nameZh = document.getElementById('med-name-zh').value.trim();
-    const nameId = document.getElementById('med-name-id').value.trim();
-    const dose = document.getElementById('med-dose').value.trim();
-    const time = document.getElementById('med-time').value;
-    const note = document.getElementById('med-note').value.trim();
-    if (!nameZh) { alert('❌ 請輸入藥名'); return; }
-    if (!time) { alert('❌ 請設定時間'); return; }
-    const med = {id: Date.now().toString(), nameZh, nameId: (nameId && !nameId.includes('翻譯')) ? nameId : nameZh, dose, time, note};
-    medReminders.push(med);
-    medReminders.sort((a,b) => a.time.localeCompare(b.time));
-    renderMedList();
-    ['med-name-zh','med-name-id','med-dose','med-time','med-note'].forEach(id => document.getElementById(id).value = '');
-    alert('✅ 已新增「' + nameZh + '」' + time + ' 提醒！');
-  }
-
-  function renderMedList() {
-    const el = document.getElementById('med-list');
-    if (!el) return;
-    if (!medReminders.length) { el.innerHTML = '<div style="text-align:center;padding:2rem;color:#9ca3af;">尚未設定提醒<br>Belum ada pengingat</div>'; return; }
-    el.innerHTML = medReminders.map(m =>
-      '<div style="background:white;border:2px solid #e5e7eb;border-radius:12px;padding:1rem;margin-bottom:0.75rem;display:flex;align-items:center;gap:1rem;">'
-      + '<div style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;border-radius:10px;padding:0.5rem 0.75rem;text-align:center;min-width:58px;flex-shrink:0;font-weight:800;">' + m.time + '</div>'
-      + '<div style="flex:1;"><b style="color:#1f2937;">' + m.nameZh + '</b>'
-      + '<div style="color:#2563eb;font-size:0.85rem;font-style:italic;">' + m.nameId + '</div>'
-      + (m.dose ? '<div style="color:#6b7280;font-size:0.8rem;">💊 ' + m.dose + '</div>' : '')
-      + (m.note ? '<div style="color:#6b7280;font-size:0.8rem;">📝 ' + m.note + '</div>' : '') + '</div>'
-      + '<button onclick="deleteMed(\'' + m.id + '\')" style="background:none;border:none;color:#d1d5db;font-size:1.2rem;cursor:pointer;padding:0.3rem;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#d1d5db'">✕</button></div>'
-    ).join('');
-  }
-
-  function deleteMed(id) {
-    const m = medReminders.find(m => m.id === id);
-    if (m && confirm('確定刪除「' + m.nameZh + '」提醒？')) { medReminders = medReminders.filter(x => x.id !== id); renderMedList(); }
-  }
-
-  setInterval(updateMedClock, 1000);
-  updateMedClock();
-
 </script>
 </body>
 </html>
