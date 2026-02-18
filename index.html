@@ -589,7 +589,9 @@
         <textarea id="source-text" placeholder="輸入文字... Type here..."></textarea>
       </div>
 
-      <div style="text-align:center;font-size:2rem;margin:0.5rem 0">⬇️</div>
+      <div style="text-align:center;margin:1rem 0">
+        <button onclick="translateText()" title="點擊翻譯 Klik untuk terjemahkan" style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;border:none;border-radius:50%;width:64px;height:64px;font-size:2rem;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,0.3);transition:all 0.3s ease;display:flex;align-items:center;justify-content:center;margin:0 auto" onmouseover="this.style.transform='scale(1.1) translateY(2px)';this.style.boxShadow='0 8px 20px rgba(37,99,235,0.4)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 12px rgba(37,99,235,0.3)'">⬇️</button>
+      </div>
 
       <div class="translate-box">
         <label>目標語言 Target</label>
@@ -688,18 +690,18 @@
 
     <!-- ========== 緊急處理 ========== -->
     <section id="emergency" class="section">
-      <h2 style="margin-bottom:1.25rem">緊急處理指南 Emergency Guide</h2>
+      <h2 style="margin-bottom:1.25rem">緊急處理指南 Panduan Darurat</h2>
 
       <div class="emergency-banner">
         <span style="font-size:2.5rem">⚠️</span>
         <div>
           <div>緊急情況請立即撥打 119 或聯繫家屬！</div>
-          <div style="font-size:0.875rem;font-weight:400;margin-top:0.25rem">In case of emergency, call 119 or contact family!</div>
+          <div style="font-size:0.875rem;font-weight:400;margin-top:0.25rem">Dalam keadaan darurat, hubungi 119 atau keluarga!</div>
         </div>
       </div>
 
       <div class="emergency-card">
-        <div class="emergency-title">🤕 跌倒處理 Fall Management</div>
+        <div class="emergency-title">🤕 跌倒處理 Penanganan Jatuh</div>
         <ol class="emergency-steps">
           <li><strong>保持冷靜，不要移動病患</strong><br><span style="color:#6b7280;font-size:0.875rem">Tetap tenang, jangan pindahkan pasien</span></li>
           <li><strong>大聲呼叫確認意識</strong><br><span style="color:#6b7280;font-size:0.875rem">Panggil keras untuk cek kesadaran</span></li>
@@ -711,7 +713,7 @@
       </div>
 
       <div class="emergency-card">
-        <div class="emergency-title">😮 嗆咳處理 Choking Management</div>
+        <div class="emergency-title">😮 嗆咳處理 Penanganan Tersedak</div>
         <ol class="emergency-steps">
           <li><strong>立即停止進食</strong><br><span style="color:#6b7280;font-size:0.875rem">Segera hentikan makan</span></li>
           <li><strong>讓病患身體前傾，鼓勵用力咳嗽</strong><br><span style="color:#6b7280;font-size:0.875rem">Condongkan tubuh ke depan, dorong untuk batuk</span></li>
@@ -722,7 +724,7 @@
       </div>
 
       <div class="emergency-card">
-        <div class="emergency-title">🍬 低血糖處理 Low Blood Sugar</div>
+        <div class="emergency-title">🍬 低血糖處理 Gula Darah Rendah</div>
         <ol class="emergency-steps">
           <li><strong>確認症狀：冒汗、發抖、臉色蒼白</strong><br><span style="color:#6b7280;font-size:0.875rem">Gejala: berkeringat, gemetar, pucat</span></li>
           <li><strong>立即給予含糖飲料或糖果</strong><br><span style="color:#6b7280;font-size:0.875rem">Berikan minuman manis atau permen</span></li>
@@ -733,7 +735,7 @@
       </div>
 
       <div class="emergency-card">
-        <div class="emergency-title">💔 心肺復甦術 CPR</div>
+        <div class="emergency-title">💔 心肺復甦術 RJP (Resusitasi Jantung Paru)</div>
         <div class="warning-box">
           <span>⚠️</span>
           <span>先撥打 119 後再施行 CPR / Hubungi 119 dulu sebelum CPR</span>
