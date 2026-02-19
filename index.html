@@ -982,6 +982,7 @@
 
   // ===================== 用藥提醒 =====================
   let medReminders = [];
+  let medAlertAudio = null; // 用藥提醒聲音
   let alertedToday = {};
 
   // 時鐘更新
@@ -1025,6 +1026,28 @@
   function showMedAlert(med) {
     // 震動（如果支援）
     if (navigator.vibrate) navigator.vibrate([500, 200, 500, 200, 500]);
+    
+    // 播放提示音（循環播放直到停止）
+    try {
+      // 停止之前的聲音
+      if (medAlertAudio) {
+        medAlertAudio.pause();
+        medAlertAudio = null;
+      }
+      // 創建新的提示音
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      oscillator.frequency.value = 800; // 頻率
+      gainNode.gain.value = 0.3; // 音量
+      oscillator.start();
+      // 儲存以便稍後停止
+      medAlertAudio = { oscillator, audioContext };
+    } catch(e) {
+      console.log('Audio failed:', e);
+    }
 
     // 建立彈窗
     const overlay = document.createElement('div');
@@ -1046,7 +1069,7 @@
         ${med.dose ? `<p style="background:#eff6ff; padding:0.5rem 1rem; border-radius:8px; color:#1e3a8a; font-weight:600; margin-bottom:0.5rem">💊 劑量 Dosis: ${med.dose}</p>` : ''}
         ${med.note ? `<p style="color:#6b7280; font-size:0.9rem; margin-bottom:1rem">📝 ${med.note}</p>` : ''}
         <div style="display:flex; gap:0.75rem; margin-top:1.25rem;">
-          <button onclick="this.closest('div[style*=fixed]').remove()" style="flex:1; padding:0.9rem; background:#10b981; color:white; border:none; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer;">
+          <button onclick="if(window.medAlertAudio){medAlertAudio.oscillator.stop();medAlertAudio.audioContext.close();medAlertAudio=null;}this.closest('div[style*=fixed]').remove()" style="flex:1; padding:0.9rem; background:#10b981; color:white; border:none; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer;">
             ✅ 已服藥<br><span style="font-size:0.8rem; font-weight:400">Sudah minum</span>
           </button>
           <button onclick="snoozeAlert(this, '${med.id}')" style="flex:1; padding:0.9rem; background:#f59e0b; color:white; border:none; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer;">
@@ -1060,6 +1083,12 @@
   }
 
   function snoozeAlert(btn, medId) {
+    // 停止聲音
+    if (medAlertAudio) {
+      medAlertAudio.oscillator.stop();
+      medAlertAudio.audioContext.close();
+      medAlertAudio = null;
+    }
     const overlay = btn.closest('div[style*="fixed"]');
     overlay.remove();
     // 5 分鐘後再提醒
