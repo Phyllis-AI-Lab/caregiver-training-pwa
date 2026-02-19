@@ -983,6 +983,8 @@
   // ===================== 用藥提醒 =====================
   let medReminders = [];
   window.medAlertAudio = null; // 用藥提醒聲音（全局變數）
+  window.audioContext = null; // 全局音訊上下文（iOS 需要）
+  window.audioUnlocked = false; // 音訊是否已解鎖
   let alertedToday = {};
 
   // 時鐘更新
@@ -1023,16 +1025,58 @@
   }
 
 
+
+  // iOS 音訊解鎖（用戶第一次互動時調用）
+  function unlockAudio() {
+    if (window.audioUnlocked) return;
+    try {
+      if (!window.audioContext) {
+        window.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      // 播放靜音來解鎖
+      const oscillator = window.audioContext.createOscillator();
+      const gainNode = window.audioContext.createGain();
+      gainNode.gain.value = 0.001; // 幾乎靜音
+      oscillator.connect(gainNode);
+      gainNode.connect(window.audioContext.destination);
+      oscillator.start();
+      oscillator.stop(window.audioContext.currentTime + 0.01);
+      window.audioUnlocked = true;
+      console.log('✅ Audio unlocked for iOS');
+    } catch(e) {
+      console.log('Audio unlock failed:', e);
+    }
+  }
+
+  // 測試音效（iOS 需要用戶手勢解鎖）
+  function testMedSound() {
+    unlockAudio(); // 解鎖音訊
+    try {
+      if (!window.audioContext) {
+        window.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (window.audioContext.state === 'suspended') {
+        window.audioContext.resume();
+      }
+      const oscillator = window.audioContext.createOscillator();
+      const gainNode = window.audioContext.createGain();
+      oscillator.connect(gainNode);
+      gainNode.connect(window.audioContext.destination);
+      oscillator.frequency.value = 800;
+      gainNode.gain.value = 0.5;
+      oscillator.start();
+      oscillator.stop(window.audioContext.currentTime + 1); // 播放 1 秒
+      alert('✅ 測試音效播放中！如果有聽到「嗶」聲，表示正常。\n\nTes suara! Jika mendengar bunyi "beep", berarti normal.');
+    } catch(e) {
+      alert('❌ 音效播放失敗：' + e.message + '\n\nSuara gagal: ' + e.message);
+    }
+  }
+
   // 停止用藥提醒聲音
   function stopMedAlertSound() {
     try {
-      if (window.medAlertAudio) {
-        if (window.medAlertAudio.oscillator) {
-          window.medAlertAudio.oscillator.stop();
-        }
-        if (window.medAlertAudio.audioContext) {
-          window.medAlertAudio.audioContext.close();
-        }
+      if (window.medAlertAudio && window.medAlertAudio.oscillator) {
+        window.medAlertAudio.oscillator.stop();
         window.medAlertAudio = null;
       }
     } catch(e) {
@@ -1114,6 +1158,8 @@
 
   // 新增用藥提醒
   async function addMedReminder() {
+    // iOS 音訊解鎖
+    unlockAudio();
     const nameZh = document.getElementById('med-name-zh').value.trim();
     const nameId = document.getElementById('med-name-id').value.trim();
     const dose = document.getElementById('med-dose').value.trim();
