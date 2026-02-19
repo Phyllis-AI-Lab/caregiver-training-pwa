@@ -2,6 +2,9 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#2563eb">
   <meta name="description" content="專為外籍看護設計的多語言培訓與工作管理系統">
@@ -970,6 +973,8 @@
     if (tabName === 'med-reminder') {
       // 顯示用藥提醒全螢幕面板
       document.getElementById('med-reminder-section').style.display = 'block';
+      // 初始化聲音（iOS 需要）
+      initMedSound();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -982,9 +987,83 @@
 
   // ===================== 用藥提醒 =====================
   let medReminders = [];
+  let medAlertSound = null; // 用藥提醒音效
+  let soundReady = false; // 音效是否已準備好
   let alertedToday = {};
 
   // 時鐘更新
+
+
+
+
+
+  // === 用藥提醒聲音系統（Web Audio API）===
+  let audioContext = null;
+  let soundInterval = null;
+  
+  function initMedSound() {
+    if (audioContext) return;
+    try {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      // 靜音播放一次來解鎖（iOS）
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      gain.gain.value = 0.001;
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+      osc.start();
+      osc.stop(audioContext.currentTime + 0.01);
+    } catch(e) {
+      // 失敗不影響其他功能
+    }
+  }
+  
+  function playMedSound() {
+    try {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      
+      // 停止之前的聲音
+      stopMedSound();
+      
+      // 每秒播放一次「嗶」聲
+      soundInterval = setInterval(() => {
+        try {
+          const osc = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          
+          osc.frequency.value = 800; // 頻率
+          gain.gain.value = 0.3; // 音量
+          
+          osc.connect(gain);
+          gain.connect(audioContext.destination);
+          
+          osc.start();
+          osc.stop(audioContext.currentTime + 0.2); // 0.2 秒的嗶聲
+        } catch(e) {
+          // 靜默失敗
+        }
+      }, 1000); // 每秒一次
+    } catch(e) {
+      // 失敗不影響彈窗
+    }
+  }
+  
+  function stopMedSound() {
+    try {
+      if (soundInterval) {
+        clearInterval(soundInterval);
+        soundInterval = null;
+      }
+    } catch(e) {
+      // 靜默失敗
+    }
+  }
+
   function updateMedClock() {
     const now = new Date();
     const hh = String(now.getHours()).padStart(2, '0');
@@ -1025,6 +1104,8 @@
   function showMedAlert(med) {
     // 震動（如果支援）
     if (navigator.vibrate) navigator.vibrate([500, 200, 500, 200, 500]);
+    // 播放聲音（有錯誤保護，失敗不影響彈窗）
+    playMedSound();
 
     // 建立彈窗
     const overlay = document.createElement('div');
@@ -1046,7 +1127,7 @@
         ${med.dose ? `<p style="background:#eff6ff; padding:0.5rem 1rem; border-radius:8px; color:#1e3a8a; font-weight:600; margin-bottom:0.5rem">💊 劑量 Dosis: ${med.dose}</p>` : ''}
         ${med.note ? `<p style="color:#6b7280; font-size:0.9rem; margin-bottom:1rem">📝 ${med.note}</p>` : ''}
         <div style="display:flex; gap:0.75rem; margin-top:1.25rem;">
-          <button onclick="this.closest('div[style*=fixed]').remove()" style="flex:1; padding:0.9rem; background:#10b981; color:white; border:none; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer;">
+          <button onclick="stopMedSound();this.closest('div[style*=fixed]').remove()" style="flex:1; padding:0.9rem; background:#10b981; color:white; border:none; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer;">
             ✅ 已服藥<br><span style="font-size:0.8rem; font-weight:400">Sudah minum</span>
           </button>
           <button onclick="snoozeAlert(this, '${med.id}')" style="flex:1; padding:0.9rem; background:#f59e0b; color:white; border:none; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer;">
@@ -1060,6 +1141,7 @@
   }
 
   function snoozeAlert(btn, medId) {
+    stopMedSound(); // 停止聲音
     const overlay = btn.closest('div[style*="fixed"]');
     overlay.remove();
     // 5 分鐘後再提醒
@@ -1071,6 +1153,7 @@
 
   // 新增用藥提醒
   async function addMedReminder() {
+    initMedSound(); // 確保聲音已初始化
     const nameZh = document.getElementById('med-name-zh').value.trim();
     const nameId = document.getElementById('med-name-id').value.trim();
     const dose = document.getElementById('med-dose').value.trim();
@@ -1447,5 +1530,34 @@
       .catch(e => console.error('SW error:', e));
   }
 </script>
+
+  <script>
+    // 停用並清除 Service Worker（避免快取問題）
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+          registration.unregister();
+          console.log('Service Worker unregistered');
+        }
+      });
+    }
+    
+    // 清除所有快取
+    if ('caches' in window) {
+      caches.keys().then(function(names) {
+        for (let name of names) {
+          caches.delete(name);
+          console.log('Cache deleted:', name);
+        }
+      });
+    }
+  </script>
+
+
+  <!-- 版本號 -->
+  <div style="position:fixed; bottom:10px; right:10px; background:rgba(37,99,235,0.9); color:white; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600; z-index:9999; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+    v1.3.0
+  </div>
+
 </body>
 </html>
