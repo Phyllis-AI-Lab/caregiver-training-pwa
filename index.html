@@ -970,6 +970,8 @@
     if (tabName === 'med-reminder') {
       // 顯示用藥提醒全螢幕面板
       document.getElementById('med-reminder-section').style.display = 'block';
+      // iOS 音訊預先準備
+      if (typeof unlockAudio === 'function') unlockAudio();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1048,13 +1050,6 @@
     }
   }
 
-  // 測試音效（iOS 需要用戶手勢解鎖）
-  function testMedSound() {
-    unlockAudio(); // 解鎖音訊
-    try {
-      if (!window.audioContext) {
-        window.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
       if (window.audioContext.state === 'suspended') {
         window.audioContext.resume();
       }
